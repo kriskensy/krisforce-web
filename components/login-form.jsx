@@ -23,8 +23,8 @@ export function LoginForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (event) => {
+    event.preventDefault();
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
@@ -35,7 +35,7 @@ export function LoginForm({ className, ...props }) {
         password,
       });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
+      //TODO Update this route to redirect to an authenticated route. The user already has an active session.
       router.push("/protected");
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred");
@@ -64,7 +64,7 @@ export function LoginForm({ className, ...props }) {
                   placeholder="m@example.com"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -82,7 +82,7 @@ export function LoginForm({ className, ...props }) {
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}

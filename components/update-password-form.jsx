@@ -17,12 +17,12 @@ import { useState } from "react";
 
 export function UpdatePasswordForm({ className, ...props }) {
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleForgotPassword = async (e) => {
-    e.preventDefault();
+  const handleForgotPassword = async (event) => {
+    event.preventDefault();
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
@@ -30,7 +30,7 @@ export function UpdatePasswordForm({ className, ...props }) {
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
+      //TODO Update this route to redirect to an authenticated route. The user already has an active session.
       router.push("/protected");
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred");
@@ -59,7 +59,7 @@ export function UpdatePasswordForm({ className, ...props }) {
                   placeholder="New password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}

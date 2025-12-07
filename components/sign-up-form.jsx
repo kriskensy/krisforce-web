@@ -24,8 +24,8 @@ export function SignUpForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
+  const handleSignUp = async (event) => {
+    event.preventDefault();
     const supabase = createClient();
     setIsLoading(true);
     setError(null);
@@ -71,7 +71,7 @@ export function SignUpForm({ className, ...props }) {
                   placeholder="m@example.com"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -83,7 +83,7 @@ export function SignUpForm({ className, ...props }) {
                   type="password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </div>
               <div className="grid gap-2">
