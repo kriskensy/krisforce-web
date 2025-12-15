@@ -1,66 +1,37 @@
 import { updateSession } from '@/lib/supabase/middleware'
 import { NextResponse } from 'next/server'
 
-const PUBLIC_API_ROUTES = [
-  '/auth/login',
-  '/auth/sign-up',
-  '/auth/update-password',
-  '/auth/forgot-password',
-  '/auth/reset-password',
-  '/auth/confirm',
-  '/auth/error',
-  '/' 
-]
-
-function isPublicRoute(pathname) {
-  return PUBLIC_API_ROUTES.some(route => pathname.startsWith(route))
-}
-
 export async function middleware(request) {
-  try{
-    const response = await updateSession(request)
-
-    if(request.nextUrl.pathname.startsWith('/auth')){
-      if(!isPublicRoute(request.nextUrl.pathname)) {
-
-        const authToken = request.cookies.get('sb-auth-token')?.value
-
-        if(!authToken) {
-          return NextResponse.json(
-            {
-              error: 'Unauthorized',
-              message: 'Auth token missing. Please login first',
-              code: 'AUTH_TOKEN_MISSING'
-            },
-            { status: 401 }
-          )
-        }
-      }
-    }
-
-    if(!isPublicRoute(request.nextUrl.pathname)) {
-
-      const authToken = request.cookies.get('sb-auth-token')?.value
-
-      if(!authToken && request.nextUrl.pathname.startsWith('/')) {
-
-        const loginUrl = new URL('/auth/login', request.url)
-        loginUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
-
-        return NextResponse.redirect(loginUrl)
-      }
-    }
-
-    return response
-  } catch (error) {
-    console.error('Middleware error: ', error)
-
-    return NextResponse.next()
+  const { response, user } = await updateSession(request)
+  const path = request.nextUrl.pathname
+  const isAuthRoute = path.startsWith('/auth')
+  const isProtectedRoute = path.startsWith('/protected') || path.startsWith('/api/admin')
+  
+  if (user && (path === '/auth/login' || path === '/auth/sign-up')) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/protected/dashboard'
+    return NextResponse.redirect(url)
   }
+
+  if (!user && isProtectedRoute) {
+    if (path.startsWith('/api/')) {
+       return NextResponse.json(
+          { error: 'Unauthorized', message: 'Please login first' }, 
+          { status: 401 }
+       )
+    } else {
+       const url = request.nextUrl.clone()
+       url.pathname = '/auth/login'
+       url.searchParams.set('redirectTo', path)
+       return NextResponse.redirect(url)
+    }
+  }
+
+  return response
 }
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.gif|.*\\.svg|.*\\.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

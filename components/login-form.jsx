@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
+import { getBrowserClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,7 +25,7 @@ export function LoginForm({ className, ...props }) {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const supabase = createClient();
+    const supabase = getBrowserClient();
     setIsLoading(true);
     setError(null);
 
