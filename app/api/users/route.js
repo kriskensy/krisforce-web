@@ -53,9 +53,9 @@ export async function POST(request) {
       )
     }
 
-    if(data.password.length < 8) {
+    if(data.password.length < 12) {
       return Response.json(
-        { error: 'Validation error', message: 'Password must be at least 8 characters' },
+        { error: 'Validation error', message: 'Password must be at least 12 characters' },
         { status: 400 }
       )
     }
