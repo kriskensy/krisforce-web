@@ -1,4 +1,4 @@
-import { getUserById, updateUser, deactivateUser, reactivateUser } from "@/lib/supabase/domains/users";
+import { getUserById, updateUser, deactivateUser, reactivateUser } from "@/lib/supabase/domains/users/users";
 
 export async function GET(request, { params }) {
   try {

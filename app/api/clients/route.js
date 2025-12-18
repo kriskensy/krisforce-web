@@ -1,4 +1,4 @@
-import { getClients } from "@/lib/supabase/domains/clients";
+import { getClients } from "@/lib/supabase/domains/clients/clients";
 
 export async function GET(request) {
   try {

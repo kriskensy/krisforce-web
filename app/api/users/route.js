@@ -1,4 +1,4 @@
-import { getUsers, createUser } from "@/lib/supabase/domains/users";
+import { getUsers, createUser } from "@/lib/supabase/domains/users/users";
 import { error } from "console";
 
 export async function GET(request) {
