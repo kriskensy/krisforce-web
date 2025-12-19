@@ -6,7 +6,6 @@ export async function GET(request) {
 
     const filters = {
       search: searchParams.get('search'),
-      active: searchParams.get('active') === 'true' ? true: searchParams.get('active') === 'false' ? false: undefined,
       limit: parseInt(searchParams.get('limit') || '10'),
       offset: parseInt(searchParams.get('offset') ||'0'),
       orderBy: searchParams.get('orderBy') || 'created_at',

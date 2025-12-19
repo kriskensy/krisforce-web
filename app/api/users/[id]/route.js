@@ -5,7 +5,7 @@ export async function GET(request, { params }) {
     const { id } = await params;
     const user = await getUserById(id);
 
-    if (!user) {
+    if (!id) {
       return Response.json(
         { error: "User not found" },
         { status: 404 }
@@ -44,7 +44,8 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = await params;
+    // const { id } = await params;
+    const id = (await params).id;
     const user = await deactivateUser(id);
 
     return Response.json(user, { status: 200 });

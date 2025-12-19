@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { loginUser } from "@/lib/supabase/domains/auth/login";
 
 export function LoginForm({ className, ...props }) {
   const [email, setEmail] = useState("");
@@ -30,18 +31,13 @@ export function LoginForm({ className, ...props }) {
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-      //TODO Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/protected");
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "An error occurred");
-    } finally {
-      setIsLoading(false);
-    }
+        await loginUser(email, password)
+        router.push("/protected");
+      } catch (error) {
+        setError(error instanceof Error ? error.message : "An error occurred");
+      } finally {
+        setIsLoading(false);
+      }
   };
 
   return (
@@ -61,7 +57,7 @@ export function LoginForm({ className, ...props }) {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="email@example.com"
                   required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
