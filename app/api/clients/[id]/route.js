@@ -1,4 +1,4 @@
-import { deactivateClient, getClientById, reactivateClient } from "@/lib/supabase/domains/clients/clients";
+import { deactivateClient, getClientById, reactivateClient, updateClient } from "@/lib/supabase/domains/clients/clients";
 
 export async function GET(request, { params }) {
   try {
@@ -22,6 +22,31 @@ export async function GET(request, { params }) {
       { status: 500 }
     )
   } 
+}
+
+export async function PUT(request, { params }) {
+  try {
+    const { id } = params;
+    const data = await request.json();
+
+    if (!data || typeof data !== 'object') {
+      return Response.json(
+        { error: 'Validation error', message: 'Invalid payload' },
+        { status: 400 }
+      );
+    }
+
+    const client = await updateClient(id, data);
+
+    return Response.json(client, { status: 200 });
+  } catch (error) {
+    console.error('PUT /api/clients/[id] error', error);
+
+    return Response.json(
+      { error: 'Failed to update client', message: error.message },
+      { status: 500 }
+    );
+  }
 }
 
 export async function DELETE(request, { params }) {

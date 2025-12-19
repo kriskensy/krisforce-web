@@ -31,3 +31,48 @@ export async function GET(request) {
     )
   }
 }
+
+export async function POST(request) {
+  try {
+    const data = await request.json();
+
+    if (!data || typeof data !== 'object') {
+      return Response.json(
+        { error: 'Validation error', message: 'Invalid payload' },
+        { status: 400 }
+      );
+    }
+
+    if (!data.name) {
+      return Response.json(
+        { error: 'Validation error', message: 'Client name is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!data.code) {
+      return Response.json(
+        { error: 'Validation error', message: 'Client code is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!data.nip) {
+      return Response.json(
+        { error: 'Validation error', message: 'Client nip is required' },
+        { status: 400 }
+      );
+    }
+
+    const client = await createClient(data);
+
+    return Response.json(client, { status: 201 });
+  } catch (error) {
+    console.error('POST /api/clients error', error);
+
+    return Response.json(
+      { error: 'Failed to create client', message: error.message },
+      { status: 500 }
+    );
+  }
+}
