@@ -1,4 +1,4 @@
-import { getClients } from "@/lib/supabase/domains/clients/clients";
+import { getClients, createClient } from "@/lib/supabase/domains/clients/clients";
 
 export async function GET(request) {
   try {
@@ -43,23 +43,9 @@ export async function POST(request) {
       );
     }
 
-    if (!data.name) {
+    if (!data.name || !data.nip) {
       return Response.json(
-        { error: 'Validation error', message: 'Client name is required' },
-        { status: 400 }
-      );
-    }
-
-    if (!data.code) {
-      return Response.json(
-        { error: 'Validation error', message: 'Client code is required' },
-        { status: 400 }
-      );
-    }
-
-    if (!data.nip) {
-      return Response.json(
-        { error: 'Validation error', message: 'Client nip is required' },
+        { error: 'Validation error', message: 'Client name and NIP are required' },
         { status: 400 }
       );
     }

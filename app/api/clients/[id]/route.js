@@ -26,7 +26,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const data = await request.json();
 
     if (!data || typeof data !== 'object') {
