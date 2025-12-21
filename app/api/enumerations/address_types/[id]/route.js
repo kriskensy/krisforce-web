@@ -1,27 +1,63 @@
-import { NextResponse } from "next/server";
-import { supabaseAdmin } from "../../../lib/supabaseAdmin";
+import { getAddressTypeById, updateAddressType, deleteAddressType } from '../../../../../lib/supabase/domains/enumerations/address_types'
 
-export async function GET(request) {
+export async function GET(request, { params }) {
   try {
-    const { searchParams } = new URL(request.url)
-    const limit = searchParams.get('limit') || 10
-    const offset = searchParams.get('offset') || 0
+    const { id } = await params
+    const addressType = await getAddressTypeById(id)
 
-    const { data, error } = await supabaseAdmin
-      .from('address_types')
-      .select('*')
-      .range(parseInt(offset), parseInt(offset) + parseInt(limit) - 1)
-      .order('id')
+    if(!addressType) {
+      return Response.json(
+        { error: 'Address type not found' },
+        { status: 404 }
+      )
+    }
 
-    if(error) throw error
-
-    return NextResponse.json({
-      data,
-      count: data?.length || 0,
-      total: data?.length || 0
-    })
-
+    return Response.json(addressType, { status: 200 })
   } catch (error) {
-    return NextResponse.json({error: error.message}, { status: 500 })
+    console.error('GET /api/enumerations/address_types/[id] error:', error)
+
+    return Response.json(
+      { error: 'Failed to fetch address type', message: error.message },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PUT(request, { params }) {
+  try {
+    const { id } = await params
+    const data = await request.json()
+
+    if (!data || typeof data !== 'object') {
+      return Response.json(
+        { error: 'Validation error', message: 'Invalid payload' },
+        { status: 400 }
+      )
+    }
+
+    const addressType = await updateAddressType(id, data)
+
+    return Response.json(addressType, { status: 200 })
+  } catch (error) {
+    console.error('PUT /api/enumerations/address_types/[id] error:', error)
+    return Response.json(
+      { error: 'Failed to update address type', message: error.message },
+      { status: 400 }
+    )
+  }
+}
+
+export async function DELETE(request, { params }) {
+  try {
+    const { id } = await params
+    const result = await deleteAddressType(id)
+
+    return Response.json(result, { status: 200 })
+  } catch (error) {
+    console.error('DELETE /api/enumerations/address_types/[id] error:', error)
+    return Response.json(
+      { error: 'Failed to delete address type', message: error.message },
+      { status: 400 }
+    )
   }
 }
