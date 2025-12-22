@@ -1,4 +1,4 @@
-import { getProductCategoryById, updateProductCategory, deleteProductCategory } from '../../../../../lib/supabase/domains/enumerations/productCategories'
+import { getProductCategoryById, updateProductCategory, deleteProductCategory } from '../../../../../lib/supabase/domains/enumerations/product_categories'
 
 export async function GET(request, { params }) {
   try {

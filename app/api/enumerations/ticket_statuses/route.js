@@ -1,4 +1,4 @@
-import { getTicketStatuses, createTicketStatus } from '../../../../lib/supabase/domains/enumerations/ticketStatuses'
+import { getTicketStatuses, createTicketStatus } from '../../../../lib/supabase/domains/enumerations/ticket_statuses'
 
 export async function GET(request) {
   try {
