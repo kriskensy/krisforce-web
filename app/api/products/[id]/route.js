@@ -11,6 +11,7 @@ export async function GET(request, { params }) {
         { status: 404 }
       )
     }
+    
     return Response.json(product, { status: 200 })
   } catch (error) {
     console.error('GET /api/products/[id] error:', error)
