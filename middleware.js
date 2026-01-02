@@ -4,9 +4,11 @@ import { NextResponse } from 'next/server'
 export async function middleware(request) {
   const { response, user } = await updateSession(request)
   const path = request.nextUrl.pathname
-  const isAuthRoute = path.startsWith('/auth')
-  const isProtectedRoute = path.startsWith('/protected') || path.startsWith('/api/admin')
+
+  const isProtectedRoute = path.startsWith('/protected') || path.startsWith('/api')
+  const isAdminRoute = path.startsWith('/protected/admin') || path.startsWith('/api')
   
+  //redirect to dashboard if logged in
   if (user && (path === '/auth/login' || path === '/auth/sign-up')) {
     const url = request.nextUrl.clone()
     url.pathname = '/protected/dashboard'
