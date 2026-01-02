@@ -8,12 +8,15 @@ export default async function Home() {
   const supabase = await getServerClient();
 
   //cms data from DB
-  const { data: content } = await supabase
-    .from('Site_content')
+  const { data: content, error } = await supabase
+    .from('site_content')
     .select('*');
 
-  //helper for displaying default
-  const getCms = (key, fallback) => content?.find(item => item.key === key)?.value || fallback;
+  //helper for displaying new value or default
+  const getCms = (key, fallback) => {
+    const item = content?.find(i => i.key === key);
+    return item?.value || fallback;
+  };
 
   return (
     <main className="min-h-screen flex flex-col items-center">
@@ -37,9 +40,10 @@ export default async function Home() {
           <Hero
             title={getCms('hero_title', 'Innovative Solutions')}
             subtitle={getCms('hero_subtitle', 'Scaling your business made easy.')}
+            bgImage={getCms('hero_bg_image', '/default-hero.jpg')}
           />
           <main className="flex-1 flex flex-col gap-6 px-4">
-{/* other sections */}
+{/*TODO other sections */}
           </main>
         </div>
 
