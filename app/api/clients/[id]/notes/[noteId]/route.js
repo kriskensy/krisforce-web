@@ -1,4 +1,4 @@
-import { getClientNoteById, updateClientNote, deactivateClientNote, reactivateClientNote } from '../../../../../../lib/supabase/domains/clients/client_notes'
+import { getClientNoteById, updateClientNote, deactivateClientNote, reactivateClientNote } from '@/lib/supabase/domains/clients/client_notes'
 
 export async function GET(request, { params }) {
   try {

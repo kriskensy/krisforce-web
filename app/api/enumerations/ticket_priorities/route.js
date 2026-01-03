@@ -1,4 +1,4 @@
-import { getTicketPriorities, createTicketPriority } from '../../../../lib/supabase/domains/enumerations/ticket_priorities'
+import { getTicketPriorities, createTicketPriority } from '@/lib/supabase/domains/enumerations/ticket_priorities'
 
 export async function GET(request) {
   try {

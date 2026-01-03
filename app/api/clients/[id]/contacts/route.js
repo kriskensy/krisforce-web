@@ -1,4 +1,4 @@
-import { getClientContacts, createClientContact } from '../../../../../lib/supabase/domains/clients/client_contacts'
+import { getClientContacts, createClientContact } from '@/lib/supabase/domains/clients/client_contacts'
 
 export async function GET(request, { params }) {
   try {

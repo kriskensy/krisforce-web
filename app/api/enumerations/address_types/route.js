@@ -1,4 +1,4 @@
-import { getAddressTypes, createAddressType } from '../../../../lib/supabase/domains/enumerations/address_types'
+import { getAddressTypes, createAddressType } from '@/lib/supabase/domains/enumerations/address_types'
 
 export async function GET(request) {
   try {

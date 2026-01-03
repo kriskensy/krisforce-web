@@ -1,4 +1,4 @@
-import { getPriceLists, createPriceList } from '../../../lib/supabase/domains/price_lists/price_lists'
+import { getPriceLists, createPriceList } from '@/lib/supabase/domains/price_lists/price_lists'
 
 export async function GET(request) {
   try {

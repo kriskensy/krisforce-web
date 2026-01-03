@@ -1,4 +1,4 @@
-import { getInvoicePaymentById, updateInvoicePayment, deactivateInvoicePayment, reactivateInvoicePayment } from '../../../../../../lib/supabase/domains/invoices/payments'
+import { getInvoicePaymentById, updateInvoicePayment, deactivateInvoicePayment, reactivateInvoicePayment } from '@/lib/supabase/domains/invoices/payments'
 
 export async function GET(request, { params }) {
   try {

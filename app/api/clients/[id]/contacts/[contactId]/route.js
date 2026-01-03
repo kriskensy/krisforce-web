@@ -1,4 +1,4 @@
-import { getClientContactById, updateClientContact, deleteClientContact } from '../../../../../../lib/supabase/domains/clients/client_contacts'
+import { getClientContactById, updateClientContact, deleteClientContact } from '@/lib/supabase/domains/clients/client_contacts'
 
 export async function GET(request, { params }) {
   try {

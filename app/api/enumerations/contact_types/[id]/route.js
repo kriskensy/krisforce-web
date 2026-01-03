@@ -1,4 +1,4 @@
-import { getContactTypeById, updateContactType, deleteContactType } from '../../../../../lib/supabase/domains/enumerations/contact_types'
+import { getContactTypeById, updateContactType, deleteContactType } from '@/lib/supabase/domains/enumerations/contact_types'
 
 export async function GET(request, { params }) {
   try {

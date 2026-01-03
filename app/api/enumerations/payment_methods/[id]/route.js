@@ -1,4 +1,4 @@
-import { getPaymentMethodById, updatePaymentMethod, deletePaymentMethod } from '../../../../../lib/supabase/domains/enumerations/payment_methods'
+import { getPaymentMethodById, updatePaymentMethod, deletePaymentMethod } from '@/lib/supabase/domains/enumerations/payment_methods'
 
 export async function GET(request, { params }) {
   try {

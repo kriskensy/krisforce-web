@@ -1,21 +1,22 @@
 import { getServerClient } from "@/lib/supabase/server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ContentEditor from "@/components/admin/ContentEditor";
-import { verifyAccessLevel } from "@/lib/utils/auth/verifyAccessLevel";
-import { redirect } from "@/node_modules/next/navigation";
 
 export default async function CMSPage() {
-  try {
-    await verifyAccessLevel(3);//admin
-  } catch (error) {
-    redirect('/');
-  }
   
   const supabase = await getServerClient();
   
-  const { data: content } = await supabase
+  const { data: content, error } = await supabase
     .from('site_content')
     .select('*');
+
+  if (error || !content) {
+    return (
+      <div className="container mx-auto py-10">
+        <p>Database error</p>
+      </div>
+    )
+  }
 
   //section groups
   const section = [...new Set(content.map(item => item.section))];

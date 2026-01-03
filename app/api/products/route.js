@@ -1,4 +1,4 @@
-import { getProducts, createProduct } from '../../../lib/supabase/domains/products/products'
+import { getProducts, createProduct } from '@/lib/supabase/domains/products/products'
 
 export async function GET(request) {
   try {

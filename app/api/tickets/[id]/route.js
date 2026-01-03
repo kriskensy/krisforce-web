@@ -1,4 +1,4 @@
-import { getTicketById, updateTicket, deactivateTicket, reactivateTicket } from '../../../../lib/supabase/domains/tickets/tickets'
+import { getTicketById, updateTicket, deactivateTicket, reactivateTicket } from '@/lib/supabase/domains/tickets/tickets'
 
 export async function GET(request, { params }) {
   try {

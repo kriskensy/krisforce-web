@@ -1,4 +1,4 @@
-import { getAddressTypeById, updateAddressType, deleteAddressType } from '../../../../../lib/supabase/domains/enumerations/address_types'
+import { getAddressTypeById, updateAddressType, deleteAddressType } from '@/lib/supabase/domains/enumerations/address_types'
 
 export async function GET(request, { params }) {
   try {

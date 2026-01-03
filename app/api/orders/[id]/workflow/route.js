@@ -1,4 +1,4 @@
-import { getOrderWorkflow, updateOrderStatus } from '../../../../../lib/supabase/domains/orders/order_workflow'
+import { getOrderWorkflow, updateOrderStatus } from '@/lib/supabase/domains/orders/order_workflow'
 
 export async function GET(request, { params }) {
   try {

@@ -1,4 +1,4 @@
-import { getContactTypes, createContactType } from '../../../../lib/supabase/domains/enumerations/contact_types'
+import { getContactTypes, createContactType } from '@/lib/supabase/domains/enumerations/contact_types'
 
 export async function GET(request) {
   try {

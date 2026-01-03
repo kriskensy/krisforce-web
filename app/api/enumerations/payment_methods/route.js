@@ -1,4 +1,4 @@
-import { getPaymentMethods, createPaymentMethod } from '../../../../lib/supabase/domains/enumerations/payment_methods'
+import { getPaymentMethods, createPaymentMethod } from '@/lib/supabase/domains/enumerations/payment_methods'
 
 export async function GET(request) {
   try {

@@ -1,4 +1,4 @@
-import { getRoleById, updateRole, deleteRole, deactivateRole, reactivateRole } from '../../../lib/supabase/domains/roles/roles'
+import { getRoleById, updateRole, deleteRole, deactivateRole, reactivateRole } from '@/lib/supabase/domains/roles/roles'
 
 export async function GET(request, { params }) {
   try {

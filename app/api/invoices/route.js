@@ -1,4 +1,4 @@
-import { getInvoices, createInvoice } from '../../../lib/supabase/domains/invoices/invoices'
+import { getInvoices, createInvoice } from '@/lib/supabase/domains/invoices/invoices'
 
 export async function GET(request) {
   try {

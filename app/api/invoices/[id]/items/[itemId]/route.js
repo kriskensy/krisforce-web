@@ -1,4 +1,4 @@
-import { getInvoiceItemById, updateInvoiceItem, deleteInvoiceItem } from '../../../../../../lib/supabase/domains/invoices/invoice_items'
+import { getInvoiceItemById, updateInvoiceItem, deleteInvoiceItem } from '@/lib/supabase/domains/invoices/invoice_items'
 
 export async function GET(request, { params }) {
   try {

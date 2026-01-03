@@ -1,4 +1,4 @@
-import { getOrderWorkflowById, deleteOrderWorkflow } from '../../../../../../lib/supabase/domains/orders/order_workflow'
+import { getOrderWorkflowById, deleteOrderWorkflow } from '@/lib/supabase/domains/orders/order_workflow'
 
 export async function GET(request, { params }) {
   try {

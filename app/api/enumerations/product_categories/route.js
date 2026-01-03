@@ -1,4 +1,4 @@
-import { getProductCategories, createProductCategory } from '../../../../lib/supabase/domains/enumerations/product_categories'
+import { getProductCategories, createProductCategory } from '@/lib/supabase/domains/enumerations/product_categories'
 
 export async function GET(request) {
   try {

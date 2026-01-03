@@ -1,4 +1,4 @@
-import { getOrderStatusById, updateOrderStatus, deleteOrderStatus } from '../../../../../lib/supabase/domains/enumerations/order_statuses'
+import { getOrderStatusById, updateOrderStatus, deleteOrderStatus } from '@/lib/supabase/domains/enumerations/order_statuses'
 
 export async function GET(request, { params }) {
   try {

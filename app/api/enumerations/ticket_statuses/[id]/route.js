@@ -1,4 +1,4 @@
-import { getTicketStatusById, updateTicketStatus, deleteTicketStatus } from '../../../../../lib/supabase/domains/enumerations/ticket_statuses'
+import { getTicketStatusById, updateTicketStatus, deleteTicketStatus } from '@/lib/supabase/domains/enumerations/ticket_statuses'
 
 export async function GET(request, { params }) {
   try {

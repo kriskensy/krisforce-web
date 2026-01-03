@@ -1,4 +1,4 @@
-import { getClientNotes, createClientNote } from '../../../../../lib/supabase/domains/clients/client_notes'
+import { getClientNotes, createClientNote } from '@/lib/supabase/domains/clients/client_notes'
 
 export async function GET(request, { params }) {
   try {

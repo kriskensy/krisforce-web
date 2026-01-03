@@ -1,4 +1,4 @@
-import { getOrderStatuses, createOrderStatus } from '../../../../lib/supabase/domains/enumerations/order_statuses'
+import { getOrderStatuses, createOrderStatus } from '@/lib/supabase/domains/enumerations/order_statuses'
 
 export async function GET(request) {
   try {

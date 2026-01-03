@@ -1,4 +1,4 @@
-import { getTicketPriorityById, updateTicketPriority, deleteTicketPriority } from '../../../../../lib/supabase/domains/enumerations/ticket_priorities'
+import { getTicketPriorityById, updateTicketPriority, deleteTicketPriority } from '@/lib/supabase/domains/enumerations/ticket_priorities'
 
 export async function GET(request, { params }) {
   try {

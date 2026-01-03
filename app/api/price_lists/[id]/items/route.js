@@ -1,4 +1,4 @@
-import { getPriceListItems, createPriceListItem } from '../../../../../lib/supabase/domains/price_lists/price_list_items'
+import { getPriceListItems, createPriceListItem } from '@/lib/supabase/domains/price_lists/price_list_items'
 
 export async function GET(request, { params }) {
   try {

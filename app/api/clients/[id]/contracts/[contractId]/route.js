@@ -1,4 +1,4 @@
-import { getClientContractById, updateClientContract, deactivateClientContract,  reactivateClientContract } from '../../../../../../lib/supabase/domains/clients/contracts'
+import { getClientContractById, updateClientContract, deactivateClientContract,  reactivateClientContract } from '@/lib/supabase/domains/clients/contracts'
 
 export async function GET(request, { params }) {
   try {

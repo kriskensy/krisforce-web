@@ -1,4 +1,4 @@
-import { getTickets, createTicket } from '../../../lib/supabase/domains/tickets/tickets'
+import { getTickets, createTicket } from '@/lib/supabase/domains/tickets/tickets'
 
 export async function GET(request) {
   try {

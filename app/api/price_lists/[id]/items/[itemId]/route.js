@@ -1,4 +1,4 @@
-import { getPriceListItemById, updatePriceListItem, deactivatePriceListItem, reactivatePriceListItem } from '../../../../../../lib/supabase/domains/price_lists/price_list_items'
+import { getPriceListItemById, updatePriceListItem, deactivatePriceListItem, reactivatePriceListItem } from '@/lib/supabase/domains/price_lists/price_list_items'
 
 export async function GET(request, { params }) {
   try {

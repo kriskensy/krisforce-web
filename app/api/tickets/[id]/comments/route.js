@@ -1,4 +1,4 @@
-import { getTicketComments, createTicketComment } from '../../../../../lib/supabase/domains/tickets/ticket_comments'
+import { getTicketComments, createTicketComment } from '@/lib/supabase/domains/tickets/ticket_comments'
 
 export async function GET(request, { params }) {
   try {

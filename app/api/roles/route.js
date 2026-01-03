@@ -1,4 +1,4 @@
-import { getRoles, createRole } from '../../lib/supabase/domains/roles/roles'
+import { getRoles, createRole } from '@/lib/supabase/domains/roles/roles'
 
 export async function GET(request) {
   try {

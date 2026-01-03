@@ -1,4 +1,4 @@
-import { getClientContracts, createClientContract } from '../../../../../lib/supabase/domains/clients/contracts'
+import { getClientContracts, createClientContract } from '@/lib/supabase/domains/clients/contracts'
 
 export async function GET(request, { params }) {
   try {

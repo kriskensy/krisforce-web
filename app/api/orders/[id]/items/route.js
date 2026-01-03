@@ -1,4 +1,4 @@
-import { getOrderItems, createOrderItem } from '../../../../../lib/supabase/domains/orders/order_items'
+import { getOrderItems, createOrderItem } from '@/lib/supabase/domains/orders/order_items'
 
 export async function GET(request, { params }) {
   try {

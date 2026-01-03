@@ -1,5 +1,5 @@
 import { getInvoiceById, updateInvoice, deactivateInvoice, reactivateInvoice 
-} from '../../../../lib/supabase/domains/invoices/invoices'
+} from '@/lib/supabase/domains/invoices/invoices'
 
 export async function GET(request, { params }) {
   try {
