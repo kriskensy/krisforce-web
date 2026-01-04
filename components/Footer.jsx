@@ -5,7 +5,7 @@ import { Textarea } from "./ui/textarea";
 export const Footer = ({ content }) => {
 
   //for easier access
-  const getFooterValue = (key, fallback) => content?.find(item => item.key === key)?.value || fallback;
+  const getCmsFooterValue = (key, fallback) => content?.find(item => item.key === key)?.value || fallback;
 
   return (
     <footer className="bg-white dark:bg-[#161B22] border-t py-12">
@@ -13,16 +13,16 @@ export const Footer = ({ content }) => {
 
         <div className="space-y-4">
           <h4 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
-            {getFooterValue('footer_content_title', 'Contact Information')}
+            {getCmsFooterValue('footer_content_title', 'Contact Information')}
           </h4>
           <div className="text-sm whitespace-pre-line leading-relaxed">
-            {getFooterValue('footer_address', 'Adress not set in CMS.')}
+            {getCmsFooterValue('footer_address', 'Adress not set in CMS.')}
           </div>
         </div>
 
         <div className="space-y-4">
           <h4 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">
-            {getFooterValue('footer_form_title', 'Send us a message')}
+            {getCmsFooterValue('footer_form_title', 'Send us a message')}
           </h4>
           <form className="space-y-3">
             <Input placeholder="Subject" className="h-9 bg-background"/>
@@ -32,7 +32,7 @@ export const Footer = ({ content }) => {
               placeholder="How can we help you?"
             />
             <Button size="sm">
-              {getFooterValue('footer_form_submit', 'Contact us')}
+              {getCmsFooterValue('footer_form_submit', 'Contact us')}
             </Button>
           </form>
         </div>
