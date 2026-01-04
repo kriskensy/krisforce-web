@@ -10,7 +10,8 @@ export default async function Home() {
   //cms data from DB
   const { data: content, error } = await supabase
     .from('site_content')
-    .select('*');
+    .select('*')
+    .in('section', ['navbar', 'hero']);
 
   //helper for displaying new value or default
   const getCms = (key, fallback) => {

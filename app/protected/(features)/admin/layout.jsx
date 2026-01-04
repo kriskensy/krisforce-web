@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }) {
   }
 
   if (!isAuthorized) {
-    redirect('/');
+    redirect('/protected');
   }
 
   return <>{children}</>;

@@ -30,10 +30,10 @@ export default async function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster position="top-right" richColors />
-          <Footer content={footerContent}/>
-        </ThemeProvider>
+            {children}
+            <Toaster position="top-right" richColors />
+            <Footer content={footerContent}/>
+        </ThemeProvider>          
       </body>
     </html>
   );
