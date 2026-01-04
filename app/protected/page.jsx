@@ -3,13 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { getServerClient } from "@/lib/supabase/server";
 import { getClientDashboardData } from "@/lib/data/client-dashboard";
+import { DashboardBarChart } from "@/components/dashboard/dashboard-barchart";
 
 export default async function ProtectedPage() {
   const supabase = await getServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   //get client data
-  const { summary, contracts, invoices } = await getClientDashboardData(user.id);
+  const { summary, contracts, invoices, chartData } = await getClientDashboardData(user.id);
 
   return (
     <div className="space-y-4">
@@ -48,6 +49,15 @@ export default async function ProtectedPage() {
             value: new Date(contract.end_date).toLocaleDateString()
           }))}
         />
+
+        <div className="lg:col-span-2">
+          <DashboardBarChart 
+             data={chartData} 
+             title="Revenue History (Last 6 Months)"
+             dataKey="total"
+             unit="€"
+          />
+        </div>
 
         <StatCard
           title="Upcoming Payments"
