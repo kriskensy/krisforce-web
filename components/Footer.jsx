@@ -28,7 +28,7 @@ export const Footer = ({ content }) => {
             <Input placeholder="Subject" className="h-9 bg-background"/>
             <Input placeholder="email@example.com" className="h-9 bg-background"/>
             <Textarea
-              className="w-full rounded-md border bg-transparent p-3 text-sm min-h-[80px]"
+              className="w-full rounded-md border bg-background p-3 text-sm min-h-[80px]"
               placeholder="How can we help you?"
             />
             <Button size="sm">

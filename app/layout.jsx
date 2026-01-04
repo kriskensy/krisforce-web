@@ -1,11 +1,9 @@
+import { getServerClient } from "@/lib/supabase/server";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import "./globals.css";
-
-// const defaultUrl = process.env.VERCEL_URL
-//   ? `https://${process.env.VERCEL_URL}`
-//   : "http://localhost:3000";
+import { Footer } from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,7 +11,16 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const supabase = await getServerClient();
+
+  const { data: cmsContent } = await supabase
+  .from('site_content')
+  .select('*')
+  .in('section', ['footer']);
+
+  const footerContent = cmsContent?.filter(item => item.section === 'footer');
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.className} antialiased`}>
@@ -25,6 +32,7 @@ export default function RootLayout({ children }) {
         >
           {children}
           <Toaster position="top-right" richColors />
+          <Footer content={footerContent}/>
         </ThemeProvider>
       </body>
     </html>

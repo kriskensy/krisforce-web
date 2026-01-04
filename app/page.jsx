@@ -46,10 +46,6 @@ export default async function Home() {
 {/*TODO other sections */}
           </main>
         </div>
-
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-          {getCms('footer_text', '© 2026 KrisForce. All rights reserved.')}
-        </footer>
       </div>
     </main>
   );
