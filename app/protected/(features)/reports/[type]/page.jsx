@@ -56,7 +56,7 @@ export default function ReportPage() {
       <div className="container mx-auto py-10">
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Access Denied</AlertTitle>
+          <AlertTitle>Report Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       </div>
