@@ -1,9 +1,9 @@
 import { getServerClient } from "@/lib/supabase/server";
+import { getClientDashboardData } from "@/lib/data/client-dashboard";
+import { StatCard } from "@/components/dashboard/stat-card";
+import { DashboardBarChart } from "@/components/dashboard/dashboard-barchart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { StatCard } from "@/components/dashboard/stat-card";
-import { getClientDashboardData } from "@/lib/data/client-dashboard";
-import { DashboardBarChart } from "@/components/dashboard/dashboard-barchart";
 
 export default async function ClientDashBoardView ({ userId }) {
     const supabase = await getServerClient();
