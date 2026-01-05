@@ -11,12 +11,14 @@ export default async function ClientDashBoardView ({ userId }) {
   //get client data
   const { summary, contracts, invoices, chartData } = await getClientDashboardData(userId);
 
+  console.log('chartData', chartData);
+
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <StatCard
-          title="Revenue Overview"
-          value={<div className="text-3xl font-bold text-[#0176D3]">
-                  {summary?.total_revenue || "0,00"} €
+          title="Current debt"
+          value={<div className="text-3xl font-bold text-[#de1e14]">
+                  {summary?.current_debt || "0,00"} €
                 </div>
           }
           subtitle="Total invoiced this month"
@@ -44,10 +46,11 @@ export default async function ClientDashBoardView ({ userId }) {
 
         <div className="lg:col-span-2">
           <DashboardBarChart 
-             data={chartData} 
-             title="Revenue History (Last 6 Months)"
-             dataKey="total"
-             unit="€"
+            data={chartData} 
+            title="Invoices Issued (Last 6 Months)"
+            dataKey="total"
+            labelKey="month"
+            unit=""
           />
         </div>
 
