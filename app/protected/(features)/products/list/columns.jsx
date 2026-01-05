@@ -3,6 +3,7 @@
 import { MoreHorizontal, Pencil, Trash2, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDelete) => [
   { accessorKey: "code", header: "Code" },
@@ -40,44 +41,14 @@ export const getColumns = (userLevel, onEdit, onDelete) => [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const product = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            
-            {/* user actions */}
-            {userLevel === 1 && (
-              <DropdownMenuItem onClick={() => console.log("Added to cart", product.id)}>
-                <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
-              </DropdownMenuItem>
-            )}
-            
-            {/* manager+ actions */}
-            {userLevel >= 2 && (
-              <>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => onEdit(product)}>
-                  <Pencil className="mr-2 h-4 w-4" /> Edit Product
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => onDelete(product.id)}
-                  className="text-destructive focus:text-destructive"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" /> Deactivate
-                </DropdownMenuItem>
-              </>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => (
+      <DataTableRowActions 
+        row={row} 
+        userLevel={userLevel} 
+        onEdit={onEdit} 
+        onDelete={onDelete}
+        entityName="Product" 
+      />
+    )
   },
 ];
