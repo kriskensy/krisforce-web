@@ -1,0 +1,59 @@
+'use client';
+
+import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
+
+export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
+  { accessorKey: "note_text", header: "Note" },
+  { accessorKey: "user_id", header: "Created By",
+    cell: ({ row }) => {
+      const userName = row.original.user_profiles?.first_name && row.original.user_profiles?.last_name
+        ? `${row.original.user_profiles.first_name} ${row.original.user_profiles.last_name}`
+        : row.original.user_profiles?.first_name || "Unknown";
+      return <span>{userName}</span>;
+    }
+  },
+  { accessorKey: "client_id", header: "Client",
+    cell: ({ row }) => {
+      const clientName = row.original.clients?.name;
+      return <span>{clientName || "No client"}</span>;
+    }
+  },
+  { accessorKey: "created_at", header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("created_at");
+      return <span>{new Date(createdAt).toLocaleDateString()}</span>;
+    }
+  },
+  { accessorKey: "deleted_at", header: "Status",
+    cell: ({ row }) => {
+      const deletedAt = row.getValue("deleted_at");
+
+      if(!deletedAt) {
+        return (
+          <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+            Active
+          </span>
+        );
+      }
+
+      return (
+        <span className="text-muted-foreground text-xs">
+          Deactivated: {new Date(deletedAt).toLocaleDateString()}
+        </span>
+      );
+    }
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => (
+      <DataTableRowActions 
+        row={row} 
+        userLevel={userLevel} 
+        onEdit={onEdit} 
+        onDelete={onDeactivate}
+        onReactivate={onReactivate}
+        entityName="Client Note" 
+      />
+    )
+  },
+];
