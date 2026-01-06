@@ -1,11 +1,8 @@
 'use client';
 
-import { MoreHorizontal, Pencil, Trash2, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
-export const getColumns = (userLevel, onEdit, onDelete) => [
+export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
   { accessorKey: "code", header: "Code" },
   { accessorKey: "name", header: "Product Name" },
   { accessorKey: "standard_price",  header: "Price",
@@ -46,8 +43,9 @@ export const getColumns = (userLevel, onEdit, onDelete) => [
         row={row} 
         userLevel={userLevel} 
         onEdit={onEdit} 
-        onDelete={onDelete}
-        entityName="Product" 
+        onDelete={onDeactivate}
+        onReactivate={onReactivate}
+        entityName="Product Category" 
       />
     )
   },

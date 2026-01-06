@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal, Pencil, Trash2, ShoppingCart } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2, ShoppingCart, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
@@ -8,10 +8,19 @@ export function DataTableRowActions({
   row, 
   userLevel, 
   onEdit, 
-  onDelete, 
+  onDelete,
+  onReactivate,
   entityName = "record"
 }) {
   const item = row.original;
+  
+  const hasDeletedAtField = 'deleted_at' in item;
+  const hasActiveField = 'active' in item;
+  const supportsToggle = hasDeletedAtField || hasActiveField;
+
+  const isDeactivated = 
+    (hasDeletedAtField && item.deleted_at) || 
+    (hasActiveField && item.active === false);
 
   return (
     <DropdownMenu>
@@ -23,7 +32,7 @@ export function DataTableRowActions({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         
-        {/* user actions */}
+        {/* user action */}
         {userLevel === 1 && (
           <DropdownMenuItem onClick={() => console.log("Added to cart", item.id)}>
             <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
@@ -37,12 +46,31 @@ export function DataTableRowActions({
             <DropdownMenuItem onClick={() => onEdit(item)}>
               <Pencil className="mr-2 h-4 w-4" /> Edit {entityName}
             </DropdownMenuItem>
-            <DropdownMenuItem 
-              onClick={() => onDelete(item.id)}
-              className="text-destructive focus:text-destructive"
-            >
-              <Trash2 className="mr-2 h-4 w-4" /> Deactivate
-            </DropdownMenuItem>
+
+            {supportsToggle ? (
+              isDeactivated ? (
+                <DropdownMenuItem 
+                  onClick={() => onReactivate(item.id)}
+                  className="text-green-600 focus:text-green-600 focus:bg-green-50"
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" /> Reactivate
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem 
+                  onClick={() => onDelete(item.id)}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" /> Deactivate
+                </DropdownMenuItem>
+              )
+            ) : (
+              <DropdownMenuItem 
+                onClick={() => onDelete(item.id)}
+                className="text-destructive focus:text-destructive"
+              >
+                <Trash2 className="mr-2 h-4 w-4" /> Delete
+              </DropdownMenuItem>
+            )}
           </>
         )}
       </DropdownMenuContent>

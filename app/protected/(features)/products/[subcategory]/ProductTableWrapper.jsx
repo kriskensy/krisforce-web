@@ -32,9 +32,9 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
     if (!itemToDelete) return;
     
     try {
-      const res = await fetch(`${apiEndpoint}/${itemToDelete}`, { method: 'DELETE' });
+      const response = await fetch(`${apiEndpoint}/${itemToDelete}`, { method: 'DELETE' });
 
-      if (!res.ok)
+      if (!response.ok)
         throw new Error("Failed to delete");
       
       toast.success("Deleted successfully");
@@ -44,6 +44,21 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
     } finally {
       setIsDeleteModalOpen(false);
       setItemToDelete(null);
+    }
+  };
+
+  const handleReactivate = async (id) => {
+    try {
+      const response = await fetch(`${apiEndpoint}/${id}`, { 
+        method: 'PATCH'
+      });
+
+      if (!response.ok) throw new Error("Failed to reactivate");
+
+      toast.success("Record reactivated successfully");
+      setRefreshKey(prev => prev + 1);
+    } catch (error) {
+      toast.error("Error", { description: error.message });
     }
   };
 
@@ -58,7 +73,7 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleEdit, handleDeleteRequest);
+  const columns = getColumnsFunc(userLevel, handleEdit, handleDeleteRequest, handleReactivate);
 
   return (
     <div className="space-y-4">
