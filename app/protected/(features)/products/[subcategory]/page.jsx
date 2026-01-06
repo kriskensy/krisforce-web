@@ -38,6 +38,8 @@ export default async function ProductsSubcategoryPage({ params }) {
         apiEndpoint={config.apiEndpoint}
         fields={config.fields}
         tableKey={config.tableKey}
+        title={config.title}
+        description={config.description}
       />
     </div>
   );
