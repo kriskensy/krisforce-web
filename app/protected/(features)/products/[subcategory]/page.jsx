@@ -37,6 +37,7 @@ export default async function ProductsSubcategoryPage({ params }) {
         userLevel={access.level}
         apiEndpoint={config.apiEndpoint}
         fields={config.fields}
+        tableKey={config.tableKey}
       />
     </div>
   );

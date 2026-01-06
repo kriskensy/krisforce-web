@@ -110,7 +110,10 @@ export default function ProductFormModal({ open, onOpenChange, initialData, endp
                   type={field.type === 'number' ? 'number' : 'text'}
                   step={field.type === 'number' ? '0.01' : undefined}
                   value={formData[field.name] || ""}
-                  onChange={(e) => setFormData({...formData, [field.name]: e.target.value})}
+                  onChange={(e) => {
+                    const val = field.type === 'number' ? parseFloat(e.target.value) : e.target.value;
+                    setFormData({...formData, [field.name]: e.target.value});
+                  }}
                   required={field.required}
                 />
               )}

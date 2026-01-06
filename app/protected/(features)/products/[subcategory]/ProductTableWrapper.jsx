@@ -1,5 +1,6 @@
 'use client';
 
+import { GLOBAL_COLUMNS_REGISTRY } from "@/lib/configs/columns-registry";
 import { useState } from 'react';
 import { DataTableServer } from '@/components/ui/data-table-server';
 import ProductFormModal from './ProductFormModal';
@@ -7,7 +8,7 @@ import { getColumns } from '../list/columns';
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description }) {
+export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -23,7 +24,18 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
     setRefreshKey(prev => prev + 1);
   };
 
-  const columns = getColumns(userLevel, handleEdit, handleDelete);
+  const getColumnsFunc = GLOBAL_COLUMNS_REGISTRY[tableKey];
+
+  if (!getColumnsFunc) {
+    console.error(`Registry error: No columns for key "${tableKey}"`);
+    return (
+      <div className="p-4 border border-destructive text-destructive">
+        Table configuration error: No columns found for <b>{tableKey}</b>.
+      </div>
+    );
+  }
+
+  const columns = getColumnsFunc(userLevel, handleEdit, handleDelete);
 
   return (
     <div className="space-y-4">
