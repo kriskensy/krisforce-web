@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 
-export function DataTableServer({ columns, endpoint, userLevel }) {
+export function DataTableServer({ columns, endpoint, userLevel, activeOnly }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -18,7 +18,12 @@ export function DataTableServer({ columns, endpoint, userLevel }) {
     setLoading(true);
     try {
       const url = new URL(endpoint, window.location.origin);
-      if (search) url.searchParams.set('search', search);
+
+      if (search)
+        url.searchParams.set('search', search);
+
+      if (activeOnly !== undefined)
+        url.searchParams.set('activeOnly', activeOnly.toString());
       
       const response = await fetch(url.toString());
       if (!response.ok) throw new Error('Failed to fetch data');
@@ -30,7 +35,7 @@ export function DataTableServer({ columns, endpoint, userLevel }) {
     } finally {
       setLoading(false);
     }
-  }, [endpoint, search]);
+  }, [endpoint, search, activeOnly]);
 
   useEffect(() => {
     const timer = setTimeout(() => fetchData(), 300);

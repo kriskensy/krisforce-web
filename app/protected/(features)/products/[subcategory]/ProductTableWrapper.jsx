@@ -6,21 +6,45 @@ import { DataTableServer } from '@/components/ui/data-table-server';
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import DynamicFormModal from '@/components/crud/DynamicFormModal';
+import { DeleteConfirmModal } from "@/components/crud/DeleteConfirmModal";
+import { DisplayActiveOnlyRecordsCheckbox }from "@/components/crud/DisplayActiveOnlyRecordsCheckbox";
+import { toast } from "sonner";
 
 export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [showActiveOnly, setShowActiveOnly] = useState(true);
 
   const handleEdit = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure?")) return;
-    await fetch(`${apiEndpoint}/${id}`, { method: 'DELETE' });
-    setRefreshKey(prev => prev + 1);
+  const handleDeleteRequest = (id) => {
+    setItemToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    
+    try {
+      const res = await fetch(`${apiEndpoint}/${itemToDelete}`, { method: 'DELETE' });
+
+      if (!res.ok)
+        throw new Error("Failed to delete");
+      
+      toast.success("Deleted successfully");
+      setRefreshKey(prev => prev + 1);
+    } catch (error) {
+      toast.error("Error", { description: error.message });
+    } finally {
+      setIsDeleteModalOpen(false);
+      setItemToDelete(null);
+    }
   };
 
   const getColumnsFunc = GLOBAL_COLUMNS_REGISTRY[tableKey];
@@ -34,11 +58,17 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleEdit, handleDelete);
+  const columns = getColumnsFunc(userLevel, handleEdit, handleDeleteRequest);
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end items-center">
+      <div className="flex justify-end items-center gap-4">
+
+        <DisplayActiveOnlyRecordsCheckbox 
+          tableKey={tableKey}
+          showActiveOnly={showActiveOnly}
+          onActiveChange={setShowActiveOnly}
+        />
         
         {/* manager+*/}
         {userLevel >= 2 && (
@@ -53,6 +83,7 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
         columns={columns}
         endpoint={apiEndpoint}
         userLevel={userLevel}
+        activeOnly={showActiveOnly}
       />
 
       <DynamicFormModal 
@@ -65,6 +96,12 @@ export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoin
         initialData={selectedItem}
         fields={fields} 
         endpoint={apiEndpoint}
+        resourceName={title}
+      />
+      <DeleteConfirmModal 
+        open={isDeleteModalOpen}
+        onOpenChange={setIsDeleteModalOpen}
+        onConfirm={confirmDelete}
         resourceName={title}
       />
     </div>
