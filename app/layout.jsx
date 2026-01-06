@@ -18,7 +18,7 @@ export default async function RootLayout({ children }) {
   const { data: cmsContent } = await supabase
     .from('site_content')
     .select('*')
-    .in('section', 'footer')
+    .in('section', ['footer'])
 
   const footerContent = cmsContent?.filter(item => item.section === 'footer');
 
