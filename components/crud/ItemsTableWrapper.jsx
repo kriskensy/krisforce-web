@@ -10,7 +10,7 @@ import { DeleteConfirmModal } from "@/components/crud/DeleteConfirmModal";
 import { DisplayActiveOnlyRecordsCheckbox }from "@/components/crud/DisplayActiveOnlyRecordsCheckbox";
 import { toast } from "sonner";
 
-export default function ProductTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey }) {
+export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
