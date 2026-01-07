@@ -1,11 +1,11 @@
-import { PRODUCTS_SUB_FEATURES } from "@/lib/configs/features/products";
+import { TICKETS_SUB_FEATURES } from "@/lib/configs/features/tickets";
 import { getUserAccessLevel } from "@/lib/utils/auth/getUserAccessLevel";
 import { notFound } from "next/navigation";
 import FeatureSubcategoryTemplate from "@/components/crud/FeatureSubcategoryTemplate";
 
-export default async function ProductsSubcategoryPage({ params }) {
+export default async function TicketsSubcategoryPage({ params }) {
   const { subcategory } = await params;
-  const config = PRODUCTS_SUB_FEATURES[subcategory];
+  const config = TICKETS_SUB_FEATURES[subcategory];
   const access = await getUserAccessLevel();
 
   if (!config || access.level < config.minLevel) return notFound();
@@ -15,8 +15,8 @@ export default async function ProductsSubcategoryPage({ params }) {
         config={config}
         userLevel={access.level}
         subcategory={subcategory}
-        backHref="/protected/products"
-        backLabel="Back to Products"
+        backHref="/protected/tickets"
+        backLabel="Back to Tickets"
       />
     );
 }
