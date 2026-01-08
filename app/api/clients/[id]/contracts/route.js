@@ -7,6 +7,7 @@ export async function GET(request, { params }) {
 
     const filters = {
       search: searchParams.get('search'),
+      activeOnly: searchParams.get('activeOnly') === 'true',
       active: searchParams.get('active'),
       limit: parseInt(searchParams.get('limit')) || 10,
       offset: parseInt(searchParams.get('offset')) || 0,

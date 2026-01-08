@@ -6,6 +6,7 @@ export async function GET(request) {
 
     const filters = {
       search: searchParams.get('search'),
+      activeOnly: searchParams.get('activeOnly') === 'true',
       status: searchParams.get('status'),
       client: searchParams.get('client'),
       limit: parseInt(searchParams.get('limit')) || 10,

@@ -6,6 +6,7 @@ export async function GET(request) {
 
     const filters = {
       search: searchParams.get('search'),
+      activeOnly: searchParams.get('activeOnly') === 'true',
       status_code: searchParams.get('status'),
       client: searchParams.get('client'),
       order: searchParams.get('order'),

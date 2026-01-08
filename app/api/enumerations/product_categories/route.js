@@ -5,6 +5,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url)
     const filters = {
       search: searchParams.get('search'),
+      activeOnly: searchParams.get('activeOnly') === 'true',
       active: searchParams.get('active'),
       activeOnly: searchParams.get('activeOnly') === 'true',
       limit: parseInt(searchParams.get('limit')) || 10,

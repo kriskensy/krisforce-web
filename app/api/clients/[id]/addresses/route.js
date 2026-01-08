@@ -6,6 +6,8 @@ export async function GET(request, { params }) {
     const searchParams = new URL(request.url).searchParams;
 
     const filters = {
+      search: searchParams.get('search'),
+      activeOnly: searchParams.get('activeOnly') === 'true',
       limit: parseInt(searchParams.get('limit')) || 10,
       offset: parseInt(searchParams.get('offset')) || 0,
     };
