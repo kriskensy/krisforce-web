@@ -2,7 +2,7 @@
 
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
-export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
+export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate) => [
   { accessorKey: "ticket_id", header: "Ticket",
     cell: ({ row }) => {
       const ticketNumber = row.original.tickets?.ticket_number;

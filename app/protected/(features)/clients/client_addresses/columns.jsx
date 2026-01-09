@@ -2,7 +2,7 @@
 
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
-export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
+export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate) => [
   { accessorKey: "client_id", header: "Client",
     cell: ({ row }) => {
       const clientName = row.original.clients?.name;
@@ -44,6 +44,7 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
       <DataTableRowActions 
         row={row} 
         userLevel={userLevel} 
+        onView={onView}
         onEdit={onEdit} 
         onDelete={onDeactivate}
         onReactivate={onReactivate}

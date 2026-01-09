@@ -1,12 +1,13 @@
 'use client';
 
-import { MoreHorizontal, Pencil, Trash2, ShoppingCart, RotateCcw } from "lucide-react";
+import { MoreHorizontal, Eye, Pencil, Trash2, ShoppingCart, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
 export function DataTableRowActions({ 
   row, 
-  userLevel, 
+  userLevel,
+  onView,
   onEdit, 
   onDelete,
   onReactivate,
@@ -39,6 +40,13 @@ export function DataTableRowActions({
           </DropdownMenuItem>
         )}
         
+        {/* all users */}
+        {onView && (
+          <DropdownMenuItem onClick={() => onView(item)}>
+            <Eye className="mr-2 h-4 w-4" /> Details
+          </DropdownMenuItem>
+        )}
+
         {/* manager+ actions */}
         {userLevel >= 2 && (
           <>
