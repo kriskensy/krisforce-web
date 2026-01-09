@@ -33,7 +33,7 @@ export function DataTableRowActions({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         
-        {/* user action */}
+        {/* user / client action */}
         {userLevel === 1 && (
           <DropdownMenuItem onClick={() => console.log("Added to cart", item.id)}>
             <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart

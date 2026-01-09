@@ -8,6 +8,7 @@ import { Plus } from "lucide-react";
 import DynamicFormModal from '@/components/crud/DynamicFormModal';
 import { DeleteConfirmModal } from "@/components/crud/DeleteConfirmModal";
 import { DisplayActiveOnlyRecordsCheckbox }from "@/components/crud/DisplayActiveOnlyRecordsCheckbox";
+import { GenericDetailsModal } from "./GenericDetailsModal";
 import { toast } from "sonner";
 
 export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey }) {
@@ -17,13 +18,20 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [showActiveOnly, setShowActiveOnly] = useState(true);
+  const [viewItem, setViewItem]= useState(null);
 
   const handleEdit = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
 
-  const handleDeleteRequest = (id) => {
+  const handleView = (item) => {
+    setViewItem(item);
+  }
+
+  const handleDeleteRequest = (item) => {
+    const id = typeof item === 'object' ? item.id : item;
+
     setItemToDelete(id);
     setIsDeleteModalOpen(true);
   };
@@ -73,7 +81,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleEdit, handleDeleteRequest, handleReactivate);
+  const columns = getColumnsFunc(userLevel, handleView, handleEdit, handleDeleteRequest, handleReactivate);
 
   return (
     <div className="space-y-4">
@@ -99,6 +107,14 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
         endpoint={apiEndpoint}
         userLevel={userLevel}
         activeOnly={showActiveOnly}
+      />
+
+      <GenericDetailsModal 
+        isOpen={!!viewItem}
+        onClose={() => setViewItem(null)}
+        item={viewItem}
+        fields={fields}
+        title={title}
       />
 
       <DynamicFormModal 
