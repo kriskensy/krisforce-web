@@ -8,7 +8,7 @@ export async function GET(request, { params }) {
     const filters = {
       search: searchParams.get('search'),
       activeOnly: searchParams.get('activeOnly') === 'true',
-      contacttype: searchParams.get('contacttype'),
+      contact_type_id: searchParams.get('contact_type_id'),
       limit: parseInt(searchParams.get('limit')) || 10,
       offset: parseInt(searchParams.get('offset')) || 0,
       orderBy: searchParams.get('orderBy') || 'client_id',

@@ -9,15 +9,15 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
       return <span>{orderNumber || "No order"}</span>;
     }
   },
-  { accessorKey: "from_status_id", header: "From Status",
+  { accessorKey: "old_status_id", header: "Old Status",
     cell: ({ row }) => {
-      const statusName = row.original.order_statuses_from?.name;
+      const statusName = row.original.old_status?.name; //alias from order_workflow domain file
       return <span>{statusName || "No status"}</span>;
     }
   },
-  { accessorKey: "to_status_id", header: "To Status",
+  { accessorKey: "new_status_id", header: "New Status",
     cell: ({ row }) => {
-      const statusName = row.original.order_statuses_to?.name;
+      const statusName = row.original.new_status?.name; //alias from order_workflow domain file
       return <span>{statusName || "No status"}</span>;
     }
   },
@@ -27,7 +27,6 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
       return <span>{new Date(changedAt).toLocaleDateString()}</span>;
     }
   },
-  { accessorKey: "reason", header: "Reason" },
   {
     id: "actions",
     cell: ({ row }) => (

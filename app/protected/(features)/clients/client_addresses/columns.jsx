@@ -5,7 +5,7 @@ import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
   { accessorKey: "street", header: "Street" },
   { accessorKey: "city", header: "City" },
-  { accessorKey: "zip_code", header: "ZIP Code" },
+  { accessorKey: "zip_code", header: "Postal Code" },
   { accessorKey: "address_type_id", header: "Address Type",
     cell: ({ row }) => {
       const addressTypeName = row.original.address_types?.name;

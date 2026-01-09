@@ -10,8 +10,8 @@ export async function GET(request) {
       active: searchParams.get('active'),
       limit: parseInt(searchParams.get('limit') || 10),
       offset: parseInt(searchParams.get('offset') || 0),
-      orderBy: searchParams.get('orderBy') || 'created_at',
-      orderDir: searchParams.get('order') || 'desc'
+      orderBy: searchParams.get('orderBy') || 'name',
+      orderDir: searchParams.get('order') || 'asc'
     }
 
     const result = await getRoles(filters)

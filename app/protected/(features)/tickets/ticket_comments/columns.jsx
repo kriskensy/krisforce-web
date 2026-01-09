@@ -18,28 +18,11 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
       return <span>{fullName}</span>;
     }
   },
-  { accessorKey: "content", header: "Comment" },
+  { accessorKey: "message", header: "Comment" },
   { accessorKey: "created_at", header: "Created",
     cell: ({ row }) => {
       const createdAt = row.getValue("created_at");
       return <span>{createdAt ? new Date(createdAt).toLocaleString() : ""}</span>;
-    }
-  },
-  { accessorKey: "is_internal", header: "Internal?",
-    cell: ({ row }) => {
-      const isInternal = row.getValue("is_internal");
-      if (isInternal) {
-        return (
-          <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
-            Internal
-          </span>
-        );
-      }
-      return (
-        <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-          Public
-        </span>
-      );
     }
   },
   {
