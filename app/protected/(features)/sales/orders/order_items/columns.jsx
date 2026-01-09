@@ -3,16 +3,16 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "product_id", header: "Product",
-    cell: ({ row }) => {
-      const productName = row.original.products?.name;
-      return <span>{productName || "No product"}</span>;
-    }
-  },
   { accessorKey: "order_id", header: "Order",
     cell: ({ row }) => {
       const orderNumber = row.original.orders?.order_number;
       return <span>{orderNumber || "No order"}</span>;
+    }
+  },
+  { accessorKey: "product_id", header: "Product",
+    cell: ({ row }) => {
+      const productName = row.original.products?.name;
+      return <span>{productName || "No product"}</span>;
     }
   },
   { accessorKey: "quantity", header: "Quantity" },

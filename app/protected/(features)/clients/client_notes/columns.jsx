@@ -3,7 +3,12 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "note_text", header: "Note" },
+  { accessorKey: "client_id", header: "Client",
+    cell: ({ row }) => {
+      const clientName = row.original.clients?.name;
+      return <span>{clientName || "No client"}</span>;
+    }
+  },
   { accessorKey: "user_id", header: "Created By",
     cell: ({ row }) => {
       const userName = row.original.user_profiles?.first_name && row.original.user_profiles?.last_name
@@ -12,18 +17,14 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
       return <span>{userName}</span>;
     }
   },
-  { accessorKey: "client_id", header: "Client",
-    cell: ({ row }) => {
-      const clientName = row.original.clients?.name;
-      return <span>{clientName || "No client"}</span>;
-    }
-  },
-  { accessorKey: "created_at", header: "Created",
+  
+  { accessorKey: "created_at", header: "Created at",
     cell: ({ row }) => {
       const createdAt = row.getValue("created_at");
       return <span>{new Date(createdAt).toLocaleDateString()}</span>;
     }
   },
+  { accessorKey: "note_text", header: "Note" },
   { accessorKey: "deleted_at", header: "Status",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");

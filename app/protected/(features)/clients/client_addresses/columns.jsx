@@ -3,21 +3,22 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "street", header: "Street" },
-  { accessorKey: "city", header: "City" },
-  { accessorKey: "zip_code", header: "Postal Code" },
-  { accessorKey: "address_type_id", header: "Address Type",
-    cell: ({ row }) => {
-      const addressTypeName = row.original.address_types?.name;
-      return <span>{addressTypeName || "No type"}</span>;
-    }
-  },
   { accessorKey: "client_id", header: "Client",
     cell: ({ row }) => {
       const clientName = row.original.clients?.name;
       return <span>{clientName || "No client"}</span>;
     }
   },
+  { accessorKey: "zip_code", header: "Postal Code" },
+  { accessorKey: "city", header: "City" },
+  { accessorKey: "street", header: "Street" },
+  { accessorKey: "address_type_id", header: "Address Type",
+    cell: ({ row }) => {
+      const addressTypeName = row.original.address_types?.name;
+      return <span>{addressTypeName || "No type"}</span>;
+    }
+  },
+  
   { accessorKey: "deleted_at", header: "Status",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");

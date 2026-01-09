@@ -49,7 +49,7 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
         onEdit={onEdit} 
         onDelete={onDeactivate}
         onReactivate={onReactivate}
-        entityName="Product Category" 
+        entityName="Price List Item" 
       />
     )
   },

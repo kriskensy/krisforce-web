@@ -3,17 +3,17 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
+  { accessorKey: "client_id", header: "Client",
+    cell: ({ row }) => {
+      const clientName = row.original.clients?.name;
+      return <span>{clientName || "No client"}</span>;
+    }
+  },
   { accessorKey: "value", header: "Contact Value" },
   { accessorKey: "contact_type_id", header: "Contact Type",
     cell: ({ row }) => {
       const contactTypeName = row.original.contact_types?.name;
       return <span>{contactTypeName || "No type"}</span>;
-    }
-  },
-  { accessorKey: "client_id", header: "Client",
-    cell: ({ row }) => {
-      const clientName = row.original.clients?.name;
-      return <span>{clientName || "No client"}</span>;
     }
   },
   { accessorKey: "deleted_at", header: "Status",

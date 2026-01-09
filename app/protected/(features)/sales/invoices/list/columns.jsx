@@ -3,23 +3,23 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "invoice_number", header: "Invoice Number" },
   { accessorKey: "client_id", header: "Client",
     cell: ({ row }) => {
       const clientName = row.original.clients?.name;
       return <span>{clientName || "No client"}</span>;
     }
   },
-  { accessorKey: "order_id", header: "Order",
-    cell: ({ row }) => {
-      const orderNumber = row.original.orders?.order_number;
-      return <span>{orderNumber || "No order"}</span>;
-    }
-  },
+  { accessorKey: "invoice_number", header: "Invoice Number" },
   { accessorKey: "invoice_date", header: "Invoice Date",
     cell: ({ row }) => {
       const invoiceDate = row.getValue("invoice_date");
       return <span>{new Date(invoiceDate).toLocaleDateString()}</span>;
+    }
+  },
+  { accessorKey: "order_id", header: "Order",
+    cell: ({ row }) => {
+      const orderNumber = row.original.orders?.order_number;
+      return <span>{orderNumber || "No order"}</span>;
     }
   },
   { accessorKey: "due_date", header: "Due Date",

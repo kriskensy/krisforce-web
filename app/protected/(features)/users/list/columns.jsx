@@ -3,13 +3,6 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "email", header: "Email" },
-  { accessorKey: "role_id", header: "Role",
-    cell: ({ row }) => {
-      const roleName = row.original.roles?.name;
-      return <span>{roleName || "No role"}</span>;
-    }
-  },
   { accessorKey: "user_id", header: "Full Name",
     cell: ({ row }) => {
       const profile = row.original.user_profiles;
@@ -17,6 +10,19 @@ export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
         ? `${profile.first_name} ${profile.last_name}`
         : "Unknown";
       return <span>{fullName}</span>;
+    }
+  },
+  { accessorKey: "client_id", header: "Company name",
+    cell: ({ row }) => {
+      const clientName = row.original.clients?.name;
+      return <span>{clientName || "No client"}</span>;
+    }
+  },
+  { accessorKey: "email", header: "Email" },
+  { accessorKey: "role_id", header: "Role",
+    cell: ({ row }) => {
+      const roleName = row.original.roles?.name;
+      return <span>{roleName || "No role"}</span>;
     }
   },
   { accessorKey: "active", header: "Status",

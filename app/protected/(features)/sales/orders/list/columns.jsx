@@ -3,13 +3,13 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "order_number", header: "Order Number" },
   { accessorKey: "client_id", header: "Client",
     cell: ({ row }) => {
       const clientName = row.original.clients?.name;
       return <span>{clientName || "No client"}</span>;
     }
   },
+  { accessorKey: "order_number", header: "Order Number" },
   { accessorKey: "order_date", header: "Order Date",
     cell: ({ row }) => {
       const orderDate = row.getValue("order_date");
