@@ -2,7 +2,10 @@ import { getServerClient } from "@/lib/supabase/server";
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/Navbar";
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
+  const params = await searchParams;
+  const authMode = params?.auth;
+
   const supabase = await getServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -31,6 +34,7 @@ export default async function Home() {
             subtitle={getCms('hero_subtitle', 'Scaling your business made easy.')}
             bgImage={getCms('hero_bg_image', '/default-hero.jpg')}
             userIsLoggedIn={!!user}
+            authMode={authMode}
           />
         </div>
     </main>

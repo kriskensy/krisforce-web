@@ -3,13 +3,7 @@
 import { cn } from "@/lib/utils";
 import { getBrowserClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -28,7 +22,6 @@ export function ForgotPasswordForm({ className, ...props }) {
     setError(null);
 
     try {
-      //TODO The url which will be included in the email. This URL needs to be configured in redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/update-password`,
       });
@@ -44,23 +37,31 @@ export function ForgotPasswordForm({ className, ...props }) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       {success ? (
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-xl border-white/20 rounded-3xl shadow-2xl border text-center">
           <CardHeader>
-            <CardTitle className="text-2xl">Check Your Email</CardTitle>
-            <CardDescription>Password reset instructions sent</CardDescription>
+            <CardTitle className="text-3xl font-bold text-white">Check Your Email</CardTitle>
+            <CardDescription className="text-white/60">Password reset instructions sent</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-white/80 leading-relaxed">
               If you registered using your email and password, you will receive
               a password reset email.
             </p>
+            <div className="mt-6">
+              <Link
+                href="/?auth=login"
+                className="text-white hover:underline underline-offset-4 text-sm"
+              >
+                Back to Login
+              </Link>
+            </div>
           </CardContent>
         </Card>
       ) : (
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-xl border-white/20 rounded-3xl shadow-2xl border text-center">
           <CardHeader>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-3xl font-bold text-white">Reset Your Password</CardTitle>
+            <CardDescription className="text-white/60">
               Type in your email and we&apos;ll send you a link to reset your
               password
             </CardDescription>
@@ -68,8 +69,8 @@ export function ForgotPasswordForm({ className, ...props }) {
           <CardContent>
             <form onSubmit={handleForgotPassword}>
               <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
+                <div className="grid gap-2 text-left">
+                  <Label htmlFor="email" className="text-white/80 ml-1">Email</Label>
                   <Input
                     id="email"
                     type="email"
@@ -77,18 +78,23 @@ export function ForgotPasswordForm({ className, ...props }) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-white/20 rounded-xl h-12"
                   />
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                {error && <p className="text-xs text-red-400 font-medium ml-1">{error}</p>}
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 bg-white text-black hover:bg-zinc-200 font-bold rounded-xl transition-all" 
+                  disabled={isLoading}
+                >
                   {isLoading ? "Sending..." : "Send reset email"}
                 </Button>
               </div>
-              <div className="mt-4 text-center text-sm">
+              <div className="mt-4 text-center text-sm text-white/50">
                 Already have an account?{" "}
                 <Link
-                  href="/auth/login"
-                  className="underline underline-offset-4"
+                  href="/?auth=login"
+                  className="text-white underline underline-offset-4 hover:text-white/80 transition-colors"
                 >
                   Login
                 </Link>

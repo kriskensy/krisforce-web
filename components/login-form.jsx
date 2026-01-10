@@ -3,13 +3,6 @@
 import { cn } from "@/lib/utils";
 import { getBrowserClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -42,62 +35,69 @@ export function LoginForm({ className, ...props }) {
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="email@example.com"
-                  required
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                />
-              </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
-              </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+      <div className="relative overflow-hidden bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl ring-1 ring-black/5">
+        
+        <div className="flex flex-col gap-2 mb-8 text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-white">
+            Welcome Back
+          </h2>
+          <p className="text-sm text-white/60">
+            Please enter your details to sign in
+          </p>
+        </div>
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div className="space-y-2 text-left">
+            <Label htmlFor="email" className="text-white/80 ml-1">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="email@example.com"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:bg-white/10 focus:border-white/20 transition-all rounded-xl h-12"
+            />
+          </div>
+
+          <div className="space-y-2 text-left">
+            <div className="flex items-center justify-between ml-1">
+              <Label htmlFor="password" university className="text-white/80">Password</Label>
               <Link
-                href="/auth/sign-up"
-                className="underline underline-offset-4"
+                href="/?auth=forgot-password"
+                className="text-xs text-white/50 hover:text-white transition-colors"
               >
-                Sign up
+                Forgot password?
               </Link>
             </div>
-          </form>
-        </CardContent>
-      </Card>
+            <Input
+              id="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="bg-white/5 border-white/10 text-white focus:bg-white/10 focus:border-white/20 transition-all rounded-xl h-12"
+            />
+          </div>
+
+          {error && <p className="text-xs text-red-400 font-medium ml-1">{error}</p>}
+
+          <Button 
+            type="submit" 
+            className="w-full h-12 bg-white text-black hover:bg-zinc-200 rounded-xl font-bold transition-transform active:scale-95" 
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
+
+          <div className="pt-4 text-center text-sm text-white/50">
+            Don&apos;t have an account?{" "}
+            <Link href="/?auth=signup" className="text-white hover:underline underline-offset-4">
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
