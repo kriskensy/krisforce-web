@@ -25,7 +25,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return <span>{roleName || "No role"}</span>;
     }
   },
-  { accessorKey: "active", header: "Status",
+  { accessorKey: "active", header: "Record Status in DB",
     cell: ({ row }) => {
       const isActive = row.getValue("active");
 

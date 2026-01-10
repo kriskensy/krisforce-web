@@ -5,7 +5,7 @@ import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate) => [
   { accessorKey: "code", header: "Code" },
   { accessorKey: "name", header: "Role" },
-  { accessorKey: "active", header: "Status",
+  { accessorKey: "active", header: "Record Status in DB",
     cell: ({ row }) => {
       const isActive = row.getValue("active");
 

@@ -16,7 +16,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return validTo ? new Date(validTo).toLocaleDateString('de-DE') : "No date";
     }
   },
-  { accessorKey: "deleted_at", header: "Deactivated?",
+  { accessorKey: "deleted_at", header: "Record Status in DB",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");
 

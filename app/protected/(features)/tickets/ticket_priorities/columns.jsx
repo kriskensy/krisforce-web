@@ -6,7 +6,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
   { accessorKey: "code", header: "Code" },
   { accessorKey: "name", header: "Priority" },
   { accessorKey: "level", header: "Level" },
-  { accessorKey: "active", header: "Status",
+  { accessorKey: "active", header: "Record Status in DB",
     cell: ({ row }) => {
       const isActive = row.getValue("active");
 

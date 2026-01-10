@@ -27,7 +27,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(amount);
     }
   },
-  { accessorKey: "deleted_at", header: "Status",
+  { accessorKey: "deleted_at", header: "Record Status in DB",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");
 

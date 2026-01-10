@@ -25,7 +25,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
     }
   },
   { accessorKey: "note_text", header: "Note" },
-  { accessorKey: "deleted_at", header: "Status",
+  { accessorKey: "deleted_at", header: "Record Status in DB",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");
 

@@ -21,7 +21,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return <span>{priceListName || "No price list"}</span>;
     }
   },
-  { accessorKey: "deleted_at", header: "Deactivated?",
+  { accessorKey: "deleted_at", header: "Record Status in DB",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");
 

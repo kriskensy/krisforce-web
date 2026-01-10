@@ -16,7 +16,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return <span>{contactTypeName || "No type"}</span>;
     }
   },
-  { accessorKey: "deleted_at", header: "Status",
+  { accessorKey: "deleted_at", header: "Record Status in DB",
     cell: ({ row }) => {
       const deletedAt = row.getValue("deleted_at");
 
