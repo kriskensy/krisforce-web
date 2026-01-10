@@ -34,12 +34,12 @@ export default async function ProtectedLayout({ children }) {
     .order('order_index');
 
   return (
-    <main className="h-[100vh] min-h-[720px] max-h-[1200px]  flex flex-col bg-[#F3F3F3] dark:bg-[#0B0E14]">
+    <main className="min-h-screen  flex flex-col bg-[#F3F3F3] dark:bg-[#0B0E14]">
       <Navbar content={navbarContent}/>
       <NavigationMenu tabs={visibleTabs || []}/>
 
       {/* content */}
-      <div className="flex-1 p-6 md:p-8 overflow-y-auto max-h-[70vh]">
+      <div className="flex-1 p-6 md:p-8 ">
         <div className="max-w-7xl mx-auto">{children}</div>
       </div>
     </main>
