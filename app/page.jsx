@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 
 export default async function Home() {
   const supabase = await getServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   //cms data from DB
   const { data: cmsContent, error } = await supabase
@@ -29,6 +30,7 @@ export default async function Home() {
             title={getCms('hero_title', 'Innovative Solutions')}
             subtitle={getCms('hero_subtitle', 'Scaling your business made easy.')}
             bgImage={getCms('hero_bg_image', '/default-hero.jpg')}
+            userIsLoggedIn={!!user}
           />
         </div>
     </main>
