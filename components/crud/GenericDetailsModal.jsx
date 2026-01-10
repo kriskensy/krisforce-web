@@ -11,7 +11,7 @@ export function GenericDetailsModal({ isOpen, onClose, item, fields, title }) {
 
   const getValue = (field, item) => {
     const value = item[field.name];
-    
+//TODO fix the logic with IDs    
     const relationName = field.name.endsWith('_id') 
       ? field.name.replace('_id', '') 
       : null;

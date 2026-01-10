@@ -1,6 +1,6 @@
 import { getServerClient } from "@/lib/supabase/server";
 import { AuthButton } from "@/components/auth-button";
-import { Navbar } from "@/components/protected/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { NavigationMenu } from "@/components/protected/Navigation-menu";
 
 export default async function ProtectedLayout({ children }) {

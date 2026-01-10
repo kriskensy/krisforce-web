@@ -31,6 +31,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       <DataTableRowActions
         row={row}
         userLevel={userLevel}
+        onView={onView}
         onEdit={onEdit}
         onDelete={onDeactivate}
         onReactivate={onReactivate}
