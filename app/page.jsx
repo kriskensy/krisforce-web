@@ -13,9 +13,10 @@ export default async function Home({ searchParams }) {
   const { data: cmsContent, error } = await supabase
     .from('site_content')
     .select('*')
-    .in('section', ['navbar', 'hero']);
+    .in('section', ['about', 'navbar', 'hero']);
 
   const navbarContent = cmsContent?.filter(item => item.section === 'navbar');
+  const aboutData = cmsContent?.filter(item => item.section === 'about');
 
   //helper for displaying new value or default
   const getCms = (key, fallback) => {
@@ -35,6 +36,7 @@ export default async function Home({ searchParams }) {
             bgImage={getCms('hero_bg_image', '/default-hero.jpg')}
             userIsLoggedIn={!!user}
             authMode={authMode}
+            marketingContent={aboutData}
           />
         </div>
     </main>

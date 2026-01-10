@@ -8,7 +8,7 @@ import { UpdatePasswordForm } from "@/components/update-password-form";
 import { MarketingContent } from "@/components/MarketingContent";
 import { X } from "lucide-react";
 
-export const Hero = ({ title, subtitle, bgImage, userIsLoggedIn, authMode }) => {
+export const Hero = ({ title, subtitle, bgImage, userIsLoggedIn, authMode, marketingContent }) => {
   const targetRoute = userIsLoggedIn ? "/protected" : "/?auth=login";
 
   const renderDynamicContent = () => {
@@ -18,7 +18,7 @@ export const Hero = ({ title, subtitle, bgImage, userIsLoggedIn, authMode }) => 
       case 'forgot-password': return <ForgotPasswordForm />;
       case 'sign-up-success': return <SignUpSuccess />;
       case 'update-password': return <UpdatePasswordForm />;
-      case 'learn-more': return <MarketingContent />;
+      case 'learn-more': return <MarketingContent content={marketingContent}/>;
       default: return null;
     }
   };
