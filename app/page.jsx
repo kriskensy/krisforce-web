@@ -20,11 +20,11 @@ export default async function Home() {
   };
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex-1 flex flex-col items-center">
       <div className="w-full sticky top-0 z-50 bg-background/95 backdrop-blur">
         <Navbar content={navbarContent}/>
       </div>
-        <div className="w-full">
+        <div className="w-full flex-1 flex flex-col">
           <Hero
             title={getCms('hero_title', 'Innovative Solutions')}
             subtitle={getCms('hero_subtitle', 'Scaling your business made easy.')}

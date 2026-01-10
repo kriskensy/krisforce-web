@@ -24,14 +24,16 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
+      <body className={`${geistSans.className} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex-1 flex flex-col">
+            {children}
+          </div>
           <Toaster position="top-right" richColors />
           <Suspense fallback={null}>
             <Footer content={footerContent}/>

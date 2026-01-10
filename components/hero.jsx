@@ -1,7 +1,7 @@
 export const Hero = ({ title, subtitle, bgImage }) => {
   return (
     <div 
-      className="w-full h-[60vh] min-h-[720px] max-h-[1200px] flex flex-col gap-8 items-center justify-center text-center bg-cover bg-center bg-no-repeat relative px-4"
+      className="w-full h-[60vh] min-h-[720px] max-h-[1200px] flex-1 flex flex-col gap-8 items-center justify-center text-center bg-cover bg-center bg-no-repeat relative px-4"
       style={{ 
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${bgImage})` 
       }}
