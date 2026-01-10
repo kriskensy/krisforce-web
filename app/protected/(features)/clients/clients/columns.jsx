@@ -5,14 +5,6 @@ import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate) => [
   { accessorKey: "name", header: "Client Name" },
   { accessorKey: "nip", header: "NIP" },
-  { accessorKey: "created_by", header: "Created By",
-    cell: ({ row }) => {
-      const creatorName = row.original.users?.user_profiles?.first_name && row.original.users?.user_profiles?.last_name
-        ? `${row.original.users.user_profiles.first_name} ${row.original.users.user_profiles.last_name}`
-        : row.original.users?.email || "Unknown";
-      return <span>{creatorName}</span>;
-    }
-  },
   { accessorKey: "created_at", header: "Created",
     cell: ({ row }) => {
       const createdAt = row.getValue("created_at");
