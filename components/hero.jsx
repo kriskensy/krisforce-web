@@ -1,20 +1,24 @@
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { LoginForm } from "@/components/login-form";
 import { SignUpForm } from "@/components/sign-up-form";
 import { SignUpSuccess } from "./SignUpSuccess";
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
+import { UpdatePasswordForm } from "@/components/update-password-form";
+import { MarketingContent } from "@/components/MarketingContent";
 import { X } from "lucide-react";
 
 export const Hero = ({ title, subtitle, bgImage, userIsLoggedIn, authMode }) => {
   const targetRoute = userIsLoggedIn ? "/protected" : "/?auth=login";
 
-  const renderAuthContent = () => {
+  const renderDynamicContent = () => {
     switch (authMode) {
       case 'login': return <LoginForm />;
       case 'signup': return <SignUpForm />;
       case 'forgot-password': return <ForgotPasswordForm />;
       case 'sign-up-success': return <SignUpSuccess />;
       case 'update-password': return <UpdatePasswordForm />;
+      case 'learn-more': return <MarketingContent />;
       default: return null;
     }
   };
@@ -43,20 +47,26 @@ export const Hero = ({ title, subtitle, bgImage, userIsLoggedIn, authMode }) => 
               >
                 {userIsLoggedIn ? "Go to Dashboard" : "Get Started"}
               </Link>
-              <button className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-full font-bold transition-all">
+              <Link
+                href="/?auth=learn-more"
+                className="bg-transparent text-white border border-white/50 hover:border-white px-8 py-4 rounded-full font-bold transition-all transform hover:scale-105 inline-block shadow-xl"
+              >
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-sm animate-in zoom-in-95 duration-300 relative">
+          <div className={cn(
+            "w-full animate-in zoom-in-95 duration-300 relative px-4",
+            authMode === 'learn-more' ? "max-w-5xl" : "max-w-md"
+          )}>
             <Link 
               href="/" 
-              className="absolute -top-12 right-0 text-white/50 hover:text-white transition-colors flex items-center gap-2"
+              className="absolute -top-12 right-4 text-white/50 hover:text-white transition-colors flex items-center gap-2"
             >
-              <span>Cancel</span> <X size={18} />
+              <span>Close</span> <X size={18} />
             </Link>
-            {renderAuthContent()}
+            {renderDynamicContent()}
           </div>
         )}
       </div>
