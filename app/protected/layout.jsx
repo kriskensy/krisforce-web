@@ -2,9 +2,9 @@ import { getServerClient } from "@/lib/supabase/server";
 import { AuthButton } from "@/components/auth-button";
 import { Navbar } from "@/components/protected/Navbar";
 import { NavigationMenu } from "@/components/protected/Navigation-menu";
+import { Suspense } from "react";
 
-export default async function ProtectedLayout({ children }) {
-  
+async function ProtectedNav() {
   const supabase = await getServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -34,9 +34,26 @@ export default async function ProtectedLayout({ children }) {
     .order('order_index');
 
   return (
-    <main className="h-[100vh] min-h-[720px] max-h-[1200px]  flex flex-col bg-[#F3F3F3] dark:bg-[#0B0E14]">
+    <>
       <Navbar content={navbarContent}/>
       <NavigationMenu tabs={visibleTabs || []}/>
+    </>
+  );
+}
+
+export default function ProtectedLayout({ children }) {
+  return (
+    <main className="h-[100vh] min-h-[720px] max-h-[1200px]  flex flex-col bg-[#F3F3F3] dark:bg-[#0B0E14]">
+      <Suspense
+        fallback={
+          <>
+            <Navbar content={null} />
+            <NavigationMenu tabs={[]} />
+          </>
+        }
+      >
+        <ProtectedNav />
+      </Suspense>
 
       {/* content */}
       <div className="flex-1 p-6 md:p-8 overflow-y-auto max-h-[70vh]">

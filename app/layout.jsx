@@ -1,7 +1,8 @@
-import { getServerClient } from "@/lib/supabase/server";
+import { getPublicServerClient } from "@/lib/supabase/server";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
+import { Suspense } from "react";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 
@@ -11,16 +12,20 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-export default async function RootLayout({ children }) {
-  const supabase = await getServerClient();
+async function FooterContent() {
+  const supabase = getPublicServerClient();
 
   const { data: cmsContent } = await supabase
-  .from('site_content')
-  .select('*')
-  .in('section', ['footer']);
+    .from("site_content")
+    .select("*")
+    .in("section", ["footer"]);
 
-  const footerContent = cmsContent?.filter(item => item.section === 'footer');
+  const footerContent = cmsContent?.filter((item) => item.section === "footer");
 
+  return <Footer content={footerContent} />;
+}
+
+export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.className} antialiased`}>
@@ -30,10 +35,12 @@ export default async function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-            {children}
-            <Toaster position="top-right" richColors />
-            <Footer content={footerContent}/>
-        </ThemeProvider>          
+          {children}
+          <Toaster position="top-right" richColors />
+        </ThemeProvider>
+        <Suspense fallback={<Footer content={null} />}>
+          <FooterContent />
+        </Suspense>
       </body>
     </html>
   );

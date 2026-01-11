@@ -1,0 +1,1 @@
+Musieliśmy dodać granice Suspense, ponieważ w Next.js z Cache Components odczyt danych zależnych od żądania (np. cookies/auth/Supabase) podczas prerenderingu nie może trafić do statycznej powłoki. Suspense pozwala odroczyć te fragmenty do czasu żądania i uniknąć błędu „Uncached data was accessed outside of <Suspense>”, który blokował build i powodował wolne renderowanie.

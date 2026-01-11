@@ -3,8 +3,9 @@ import AdminDashboardView from "@/components/dashboard/admin-view"
 import ManagerDashboardView from "@/components/dashboard/manager-view"
 import SupportDashboardView from "@/components/dashboard/support-view"
 import ClientDashboardView from "@/components/dashboard/client-view"
+import { Suspense } from "react"
 
-export default async function ProtectedPage() {
+async function ProtectedContent() {
   const supabase = await getServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -30,5 +31,13 @@ export default async function ProtectedPage() {
       {userRole === 'user' && <ClientDashboardView userId={userData.id} />}
 
     </div>
+  );
+}
+
+export default function ProtectedPage() {
+  return (
+    <Suspense fallback={<div className="space-y-4">Loading dashboard...</div>}>
+      <ProtectedContent />
+    </Suspense>
   );
 }
