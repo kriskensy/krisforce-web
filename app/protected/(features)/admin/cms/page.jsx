@@ -1,9 +1,9 @@
 import { getServerClient } from "@/lib/supabase/server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ContentEditor from "@/components/admin/ContentEditor";
+import { Suspense } from "react";
 
-export default async function CMSPage() {
-  
+async function CMSContent() {
   const supabase = await getServerClient();
   
   const { data: content, error } = await supabase
@@ -44,4 +44,12 @@ export default async function CMSPage() {
       </Tabs>
     </div>
   )
+}
+
+export default function CMSPage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto py-10">Loading content...</div>}>
+      <CMSContent />
+    </Suspense>
+  );
 }

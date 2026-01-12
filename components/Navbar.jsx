@@ -5,12 +5,9 @@ import Link from "next/link";
 import { Bell, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getServerClient } from "@/lib/supabase/server";
 import { SearchForm } from "./SearchForm";
 
-export const Navbar = async ({ content }) => {
-  const supabase = await getServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+export const Navbar = ({ content, user }) => {
 
   //for easier access
   const getCmsNavbarValue = (key, fallback) => content?.find(item => item.key === key)?.value || fallback;
@@ -28,7 +25,7 @@ export const Navbar = async ({ content }) => {
         </Link>
 
         {user && (
-        <SearchForm/>
+        <SearchForm />
         )}
       </div>
 
@@ -37,7 +34,9 @@ export const Navbar = async ({ content }) => {
         <Button variant="ghost" size="icon" className="text-muted-foreground"><Settings className="h-5 w-5" /></Button>
         <div className="h-6 w-[1px] bg-border mx-2" />
         <ThemeSwitcher />
-        <Suspense><AuthButton /></Suspense>
+        <Suspense fallback={<div className="w-20 h-8 bg-muted animate-pulse rounded" />}>
+          <AuthButton />
+        </Suspense>
       </div>
     </header>
   );
