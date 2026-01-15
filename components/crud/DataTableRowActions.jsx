@@ -11,7 +11,9 @@ export function DataTableRowActions({
   onEdit, 
   onDelete,
   onReactivate,
-  entityName = "record"
+  entityName = "record",
+  editIcon,
+  editLabel
 }) {
   const item = row.original;
   
@@ -22,6 +24,9 @@ export function DataTableRowActions({
   const isDeactivated = 
     (hasDeletedAtField && item.deleted_at) || 
     (hasActiveField && item.active === false);
+
+  const EditIcon = editIcon || Pencil;
+  const label = editLabel || `Edit ${entityName}`;
 
   return (
     <DropdownMenu>
@@ -52,7 +57,8 @@ export function DataTableRowActions({
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => onEdit(item)}>
-              <Pencil className="mr-2 h-4 w-4" /> Edit {entityName}
+              <EditIcon className="mr-2 h-4 w-4"/>
+              {label}
             </DropdownMenuItem>
 
             {supportsToggle ? (

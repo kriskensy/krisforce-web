@@ -1,9 +1,11 @@
 import { getServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import MessagesList from "./MessagesList";
+import MessagesList from "./MessagesListWrapper";
+import { getUserAccessLevel } from "@/lib/utils/auth/getUserAccessLevel";
 
-export default async function ContactMessagesPage() {
+export default async function ContactMessagesHubPage() {
   const supabase = await getServerClient();
+  const access = await getUserAccessLevel();
 
   const { data: messages, error } = await supabase
     .from('contact_messages')
@@ -26,7 +28,11 @@ export default async function ContactMessagesPage() {
         </div>
       </div>
 
-      <MessagesList initialMessages={messages} />
+      <MessagesList
+        initialMessages={messages}
+        userLevel={access.level}
+        tableKey="contact_messages"
+      />
     </div>
   );
 }
