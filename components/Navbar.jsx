@@ -6,6 +6,7 @@ import { Bell, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SearchForm } from "./SearchForm";
+import { NotificationBell } from "./NotificationBell";
 
 export const Navbar = ({ content, user }) => {
 
@@ -30,7 +31,7 @@ export const Navbar = ({ content, user }) => {
       </div>
 
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="text-muted-foreground"><Bell className="h-5 w-5" /></Button>
+        {user ? <NotificationBell /> : <Bell className="h-5 w-5 text-muted-foreground opacity-50" />}
         <Button variant="ghost" size="icon" className="text-muted-foreground"><Settings className="h-5 w-5" /></Button>
         <div className="h-6 w-[1px] bg-border mx-2" />
         <ThemeSwitcher />

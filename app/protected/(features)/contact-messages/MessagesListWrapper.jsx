@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { getBrowserClient } from "@/lib/supabase/client";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { GLOBAL_COLUMNS_REGISTRY } from "@/lib/configs/columns-registry";
 import { DataTable } from '@/components/ui/data-table';
 import { DeleteConfirmModal } from "@/components/crud/DeleteConfirmModal";
@@ -11,11 +12,26 @@ import { DisplayActiveOnlyRecordsCheckbox } from '@/components/crud/DisplayActiv
 
 export default function MessagesList({ initialMessages, userLevel, tableKey }) {
   const supabase = getBrowserClient();
-  const [messages, setMessages] = useState(initialMessages || []);
+  const queryClient = useQueryClient();
   const [viewItem, setViewItem] = useState(null);
   const [isDeactivateModalOpen, setIsDeactivateModalOpen] = useState(false);
   const [itemToDeactivate, setItemToDeactivate] = useState(null);
   const [showActiveOnly, setShowActiveOnly] = useState(true);
+
+  const { data: messages = [] } = useQuery({
+    queryKey: ['contact-messages'], //cache key
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("contact_messages")
+        .select("*")
+        .order("created_at", { ascending: false });
+      
+      if (error) throw error;
+      return data;
+    },
+    initialData: initialMessages, //start data
+    refetchInterval: 5000, //refresch ever 5sec
+  });
 
   const filteredMessages = messages.filter((message) => {
     if(showActiveOnly) {
@@ -37,13 +53,12 @@ export default function MessagesList({ initialMessages, userLevel, tableKey }) {
 
       if (error) throw error;
 
-      setMessages(prev => prev.map(message => 
-        message.id === item.id ? { ...message, status: 'Responded', responded_at: now } : message
-      ));
+      queryClient.invalidateQueries({ queryKey: ['messages-count', 'new'] }); //refresh notificationbell
+      queryClient.invalidateQueries({ queryKey: ['contact-messages'] });// refresh table
 
       toast.success("Message status updated");
       
-      //mail to with native email client: just opening new email message
+      //mailto with native email client: just opening new email message
       const subject = encodeURIComponent(`Re: ${item.subject}`);
       window.location.href = `mailto:${item.sender_email}?subject=${subject}`;
     } catch (error) {
@@ -70,10 +85,8 @@ export default function MessagesList({ initialMessages, userLevel, tableKey }) {
 
       if (error) throw error;
 
-      //update local state
-      setMessages(prev => prev.map(message => 
-        message.id === itemToDeactivate ? { ...message, deleted_at: now } : message
-      ));
+      queryClient.invalidateQueries({ queryKey: ['messages-count', 'new'] });
+      queryClient.invalidateQueries({ queryKey: ['contact-messages'] });
 
       toast.success("Message deactivated successfully");
     } catch (error) {
@@ -93,10 +106,8 @@ export default function MessagesList({ initialMessages, userLevel, tableKey }) {
 
       if (error) throw error;
 
-      //update local state
-      setMessages(prev => prev.map(message => 
-        message.id === id ? { ...message, deleted_at: null } : message
-      ));
+      queryClient.invalidateQueries({ queryKey: ['messages-count', 'new'] });
+      queryClient.invalidateQueries({ queryKey: ['contact-messages'] });
 
       toast.success("Message reactivated successfully");
     } catch (error) {

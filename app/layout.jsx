@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { Suspense } from "react";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
+import Providers from "@/lib/configs/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +37,12 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex-1 flex flex-col">
-            {children}
-          </div>
-          <Toaster position="top-right" richColors />
+          <Providers>
+            <div className="flex-1 flex flex-col">
+              {children}
+            </div>
+            <Toaster position="top-right" richColors />
+          </Providers>
         </ThemeProvider>
         <Suspense fallback={<Footer content={null} />}>
           <FooterContent />
