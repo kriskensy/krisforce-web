@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SearchForm } from "./SearchForm";
 import { NotificationBell } from "./NotificationBell";
+import { SettingsMenu } from "./SettingsMenu";
 
 export const Navbar = ({ content, user }) => {
 
@@ -32,7 +33,7 @@ export const Navbar = ({ content, user }) => {
 
       <div className="flex items-center gap-3">
         {user ? <NotificationBell /> : <Bell className="h-5 w-5 text-muted-foreground opacity-50" />}
-        <Button variant="ghost" size="icon" className="text-muted-foreground"><Settings className="h-5 w-5" /></Button>
+        {user && <SettingsMenu user={user}/>}
         <div className="h-6 w-[1px] bg-border mx-2" />
         <ThemeSwitcher />
         <Suspense fallback={<div className="w-20 h-8 bg-muted animate-pulse rounded" />}>
