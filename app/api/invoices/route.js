@@ -8,7 +8,7 @@ export async function GET(request) {
       search: searchParams.get('search'),
       activeOnly: searchParams.get('activeOnly') === 'true',
       status_code: searchParams.get('status'),
-      client: searchParams.get('client'),
+      client: searchParams.get('client_id'),
       order: searchParams.get('order'),
       limit: parseInt(searchParams.get('limit')) || 10,
       offset: parseInt(searchParams.get('offset')) || 0,
