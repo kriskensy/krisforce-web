@@ -6,12 +6,12 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LayoutGrid, X } from "lucide-react";
 
-export function GenericDetailsModal({ isOpen, onClose, item, fields, title }) {
+export function GenericDetailsModal({ isOpen, onClose, item, fields, title, children }) {
   if (!item) return null;
 
+//TODO fix the logic with IDs    
   const getValue = (field, item) => {
     const value = item[field.name];
-//TODO fix the logic with IDs    
     const relationName = field.name.endsWith('_id') 
       ? field.name.replace('_id', '') 
       : null;
@@ -30,6 +30,9 @@ export function GenericDetailsModal({ isOpen, onClose, item, fields, title }) {
         </Badge>
       );
     }
+
+    if (field.isCurrency)
+      return new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(value);
 
     if (field.name.includes('_at') || field.type === 'date') {
       return value ? new Date(value).toLocaleString('de-DE') : "—";
@@ -80,6 +83,7 @@ export function GenericDetailsModal({ isOpen, onClose, item, fields, title }) {
               </div>
             ))}
           </div>
+          {children}
           <div className="h-8" />
         </ScrollArea>
         <div className="h-1.5 w-full bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-50" />

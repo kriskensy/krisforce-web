@@ -11,8 +11,6 @@ export default async function ClientDashBoardView ({ userId }) {
   //get client data
   const { summary, contracts, invoices, chartData } = await getClientDashboardData(userId);
 
-  console.log('chartData', chartData);
-
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <StatCard

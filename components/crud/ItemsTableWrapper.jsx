@@ -11,7 +11,7 @@ import { DisplayActiveOnlyRecordsCheckbox }from "@/components/crud/DisplayActive
 import { GenericDetailsModal } from "./GenericDetailsModal";
 import { toast } from "sonner";
 
-export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey }) {
+export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -87,11 +87,13 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     <div className="space-y-4">
       <div className="flex justify-end items-center gap-4">
 
-        <DisplayActiveOnlyRecordsCheckbox 
+        {userLevel >= 1 && (
+          <DisplayActiveOnlyRecordsCheckbox 
           tableKey={tableKey}
           showActiveOnly={showActiveOnly}
           onActiveChange={setShowActiveOnly}
         />
+        )}        
         
         {/* manager+*/}
         {userLevel >= 2 && (
@@ -115,7 +117,9 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
         item={viewItem}
         fields={fields}
         title={title}
-      />
+      >
+      {viewItem && renderExtra && renderExtra(viewItem)}
+      </GenericDetailsModal>
 
       <DynamicFormModal 
         open={isModalOpen}
