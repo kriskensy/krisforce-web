@@ -73,7 +73,7 @@ export default function MySupportView({ tickets, priorities, statuses, searchPar
 
         <Button onClick={() => setIsCreateOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Open New Ticket
+          Create New Ticket
         </Button>
       </div>
 
@@ -104,12 +104,7 @@ export default function MySupportView({ tickets, priorities, statuses, searchPar
                   </TableCell>
                   
                   <TableCell>
-                    <Link 
-                      href={`/protected/my-support/${ticket.id}`} 
-                      className="font-medium hover:underline flex items-center gap-2"
-                    >
                       {ticket.subject}
-                    </Link>
                   </TableCell>
 
                   <TableCell>
@@ -149,34 +144,6 @@ export default function MySupportView({ tickets, priorities, statuses, searchPar
             )}
           </TableBody>
         </Table>
-      </div>
-
-      {/* pagination */}
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            const params = new URLSearchParams(searchParams);
-            params.set('page', (Number(searchParams.page || 1) - 1).toString());
-            router.push(`${pathname}?${params.toString()}`);
-          }}
-          disabled={(Number(searchParams?.page) || 1) <= 1}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => {
-            const params = new URLSearchParams(searchParams);
-            params.set('page', (Number(searchParams.page || 1) + 1).toString());
-            router.push(`${pathname}?${params.toString()}`);
-          }}
-          disabled={tickets.length < (Number(searchParams?.limit) || 10)}
-        >
-          Next
-        </Button>
       </div>
 
       {/* create ticket modal */}
