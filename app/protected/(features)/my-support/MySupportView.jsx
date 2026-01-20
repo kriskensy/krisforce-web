@@ -1,25 +1,35 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import Link from "next/link"
-import { format } from "date-fns"
-import { Plus, Search, Filter, MessageSquare, MoreHorizontal, FileText} from "lucide-react"
+import { Plus, Search, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import CreateTicketModal from "@/components/tickets/CreateTicketModal"
-import { getStatusStyles } from "@/lib/utils/features/getStatusStyles"
+import TicketDetailsModal from "@/components/tickets/TicketDetailsModal"
+import AddCommentModal from "@/components/tickets/AddCommentModal"
+import { DataTable } from "@/components/ui/data-table"
+import { GLOBAL_COLUMNS_REGISTRY } from "@/lib/configs/columns-registry";
 
-export default function MySupportView({ tickets, priorities, statuses, searchParams }) {
+export default function MySupportView({ tickets, priorities, statuses, searchParams, userLevel }) {
   const router = useRouter()
   const pathname = usePathname()
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [searchValue, setSearchValue] = useState(searchParams?.search || '')
+  const [viewTicketId, setViewTicketId] = useState(null)
+  const [replyTicketId, setReplyTicketId] = useState(null)
+
+  const columns = useMemo(() => {
+    const getColumns = GLOBAL_COLUMNS_REGISTRY['my-support']; //tickets from columns-registry
+    
+    return getColumns(
+      userLevel,
+      (ticket) => setViewTicketId(ticket.id), // onView
+      (ticket) => setReplyTicketId(ticket.id), // onAddComment (onEdit)
+    );
+  }, [userLevel]);
 
   const handleSearch = (item) => {
     setSearchValue(item)
@@ -77,73 +87,12 @@ export default function MySupportView({ tickets, priorities, statuses, searchPar
         </Button>
       </div>
 
+      {/* table on column definition */}
       <div className="rounded-md border bg-card">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Ticket ID</TableHead>
-              <TableHead>Subject</TableHead>
-              <TableHead>Priority</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {tickets.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center">
-                  No tickets found.
-                </TableCell>
-              </TableRow>
-            ) : (
-              tickets.map((ticket) => (
-                <TableRow key={ticket.id}>
-                  <TableCell className="font-medium font-mono text-xs">
-                    {ticket.ticket_number || ticket.id.slice(0, 8)}
-                  </TableCell>
-                  
-                  <TableCell>
-                      {ticket.subject}
-                  </TableCell>
-
-                  <TableCell>
-                    <Badge variant="outline" className={getStatusStyles(ticket.ticket_priorities?.name, 'ticketsPriority')}>
-                      {ticket.ticket_priorities?.name}
-                    </Badge>
-                  </TableCell>
-                  
-                  <TableCell>
-                    <Badge variant="outline" className={getStatusStyles(ticket.ticket_statuses?.name, 'ticket')}>
-                      {ticket.ticket_statuses?.name}
-                    </Badge>
-                  </TableCell>
-                  
-                  <TableCell className="text-muted-foreground text-sm">
-                    {format(new Date(ticket.created_at), 'MMM d, yyyy')}
-                  </TableCell>
-                  
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                          <Link href={`/protected/my-support/${ticket.id}`}>
-                            View Details
-                          </Link>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+        <DataTable 
+          columns={columns} 
+          data={tickets}
+        />
       </div>
 
       {/* create ticket modal */}
@@ -159,6 +108,20 @@ export default function MySupportView({ tickets, priorities, statuses, searchPar
           />
         </DialogContent>
       </Dialog>
+
+      {/* view ticket details modal */}
+      <TicketDetailsModal
+        ticketId={viewTicketId} 
+        isOpen={!!viewTicketId} 
+        onClose={() => setViewTicketId(null)}
+      />
+
+      {/* add ticket comment modal */}
+      <AddCommentModal 
+        ticketId={replyTicketId} 
+        isOpen={!!replyTicketId} 
+        onClose={() => setReplyTicketId(null)} 
+      />
     </div>
   )
 }
