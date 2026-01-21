@@ -35,12 +35,15 @@ export default function MyOrdersPage() {
   if (!clientId) return <div>Loading access data...</div>;
 
   return (
-    <ItemsTableWrapper 
-      tableKey="my-orders"
-      apiEndpoint={`/api/orders?client_id=${clientId}`}
-      fields={modalFields}
-      userLevel={0} //only client
-      renderExtra={(item) => <OrderItemsList orderId={item.id} />} //products list
-    />
+    <div className="p-8">
+      <h2 className="text-3xl font-bold tracking-tight">My Orders</h2>
+      <ItemsTableWrapper 
+        tableKey="my-orders"
+        apiEndpoint={`/api/orders?client_id=${clientId}`}
+        fields={modalFields}
+        userLevel={0} //only client
+        renderExtra={(item) => <OrderItemsList orderId={item.id} />} //products list
+      />
+    </div>
   );
 }

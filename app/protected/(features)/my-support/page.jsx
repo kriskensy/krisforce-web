@@ -33,7 +33,7 @@ export default async function MySupportPage(props) {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">My Support Tickets</h1>
+      <h1 className="text-3xl font-bold mb-6">My Support Tickets</h1>
       <MySupportView 
         tickets={ticketsRes?.data || []} 
         priorities={prioritiesRes?.data || []} 

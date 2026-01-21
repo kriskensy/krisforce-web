@@ -38,12 +38,15 @@ export default function MyInvoicesPage() {
   if (!clientId) return <div>Loading access data...</div>;
 
   return (
-    <ItemsTableWrapper 
-      tableKey="my-invoices"
-      apiEndpoint={`/api/invoices?client_id=${clientId}`}
-      fields={modalFields}
-      userLevel={0} //only client
-      renderExtra={(item) => <InvoiceItemsList invoiceId={item.id} />} //products list
-    />
+    <div className="p-8">
+      <h2 className="text-3xl font-bold tracking-tight">My Invoices</h2>
+      <ItemsTableWrapper 
+        tableKey="my-invoices"
+        apiEndpoint={`/api/invoices?client_id=${clientId}`}
+        fields={modalFields}
+        userLevel={0} //only client
+        renderExtra={(item) => <InvoiceItemsList invoiceId={item.id} />} //products list
+      />
+    </div>
   );
 }

@@ -88,7 +88,7 @@ export default function MySupportView({ tickets, priorities, statuses, searchPar
       </div>
 
       {/* table on column definition */}
-      <div className="rounded-md border bg-card">
+      <div className="rounded-md border">
         <DataTable 
           columns={columns} 
           data={tickets}

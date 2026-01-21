@@ -10,13 +10,13 @@ export default async function TicketsSubcategoryPage({ params }) {
 
   if (!config || access.level < config.minLevel) return notFound();
   
-    return (
-      <FeatureSubcategoryTemplate 
-        config={config}
-        userLevel={access.level}
-        subcategory={subcategory}
-        backHref="/protected/tickets"
-        backLabel="Back to Tickets"
-      />
-    );
+  return (
+    <FeatureSubcategoryTemplate 
+      config={config}
+      userLevel={access.level}
+      subcategory={subcategory}
+      backHref="/protected/tickets"
+      backLabel="Back to Tickets"
+    />
+  );
 }
