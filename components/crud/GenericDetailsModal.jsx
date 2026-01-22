@@ -13,15 +13,31 @@ export function GenericDetailsModal({ isOpen, onClose, item, fields, title, chil
 
     if (field.format) return field.format(item[field.name], item);
 
+    if (field.relationName && item[field.relationName]) {
+    const displayKey = field.displayKey || 'name';
+    return item[field.relationName][displayKey] || "—";
+  }
+
     const value = item[field.name];
-    
-    const relationName = field.name.endsWith('_id') 
-      ? field.name.replace('_id', '') 
-      : null;
-      
-    if (relationName && item[relationName]) {
-      return item[relationName].name || item[relationName].number || item[relationName].code || item[relationName].title;
+    const relationName = field.name.endsWith('_id') ? field.name.replace('_id', '') : null;
+
+    if (relationName) {
+    const relData = item[relationName] || item[`${relationName}s`];
+    if (relData) {
+      return relData.name || relData.number || relData.code || relData.title;
     }
+  }
+
+
+    // const relationData = item[relationName] || item[`${relationName}s` || ''];
+
+    // if (relationName && relationData) {
+    //   return relationData.name || relationData.number || relationData.code || relationData.title;
+    // }
+
+    // if (relationName && item[relationName]) {
+    //   return item[relationName].name || item[relationName].number || item[relationName].code || item[relationName].title;
+    // }
 
     if (typeof value === 'boolean') {
       return (

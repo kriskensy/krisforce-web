@@ -3,7 +3,6 @@
 import { DataTableRowActions } from "@/components/crud/DataTableRowActions";
 
 export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate) => [
-  { accessorKey: "description", header: "Description" },
   { accessorKey: "product_id", header: "Product",
     cell: ({ row }) => {
       const productName = row.original.products?.name;

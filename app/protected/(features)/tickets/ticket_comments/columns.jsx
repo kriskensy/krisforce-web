@@ -18,7 +18,22 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return <span>{fullName}</span>;
     }
   },
-  { accessorKey: "message", header: "Comment" },
+  { 
+    accessorKey: "message", 
+    header: "Comment",
+    cell: ({ row }) => {
+      const message = row.getValue("message") || "";
+      const maxLength = 50;
+      
+      const truncated = message.length > maxLength ? message.substring(0, maxLength) + "..." : message;
+
+      return (
+        <span title={message} className="cursor-help">
+          {truncated}
+        </span>
+      );
+    }
+  },
   { accessorKey: "created_at", header: "Created",
     cell: ({ row }) => {
       const createdAt = row.getValue("created_at");
