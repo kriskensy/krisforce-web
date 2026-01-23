@@ -23,21 +23,11 @@ export function GenericDetailsModal({ isOpen, onClose, item, fields, title, chil
 
     if (relationName) {
     const relData = item[relationName] || item[`${relationName}s`];
+
     if (relData) {
-      return relData.name || relData.number || relData.code || relData.title;
+      return relData.name || relData.order_number || relData.invoice_number || relData.code || relData.title;
     }
   }
-
-
-    // const relationData = item[relationName] || item[`${relationName}s` || ''];
-
-    // if (relationName && relationData) {
-    //   return relationData.name || relationData.number || relationData.code || relationData.title;
-    // }
-
-    // if (relationName && item[relationName]) {
-    //   return item[relationName].name || item[relationName].number || item[relationName].code || item[relationName].title;
-    // }
 
     if (typeof value === 'boolean') {
       return (

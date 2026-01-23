@@ -22,7 +22,7 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function PATCH(request, { params }) {
+export async function PUT(request, { params }) {
   try {
     const { id } = await params
     const data = await request.json()
@@ -31,7 +31,7 @@ export async function PATCH(request, { params }) {
     
     return Response.json(updatedStatus)
   } catch (error) {
-    console.error(`PATCH /api/enumerations/invoice_statuses/[id] error:`, error)
+    console.error(`PUT /api/enumerations/invoice_statuses/[id] error:`, error)
     return Response.json(
       { error: 'Failed to update invoice status', message: error.message },
       { status: 500 }
