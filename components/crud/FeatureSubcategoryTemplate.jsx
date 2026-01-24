@@ -3,13 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import ItemsTableWrapper from "@/components/crud/ItemsTableWrapper";
 
-export default function FeatureSubcategoryTemplate({ 
-  config, 
-  userLevel, 
-  subcategory, 
-  backHref, 
-  backLabel 
-}) {
+export default function FeatureSubcategoryTemplate({ config, userLevel, subcategory, backHref, backLabel }) {
   const Icon = config.icon;
 
   return (
@@ -37,6 +31,7 @@ export default function FeatureSubcategoryTemplate({
         tableKey={config.tableKey}
         title={config.title}
         description={config.description}
+        hideAddButton={config.hideAddButton}
       />
     </div>
   );

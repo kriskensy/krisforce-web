@@ -12,7 +12,7 @@ import { GenericDetailsModal } from "./GenericDetailsModal";
 import { toast } from "sonner";
 import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
 
-export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra }) {
+export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra, hideAddButton = false }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -99,7 +99,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
         )}        
         
         {/* manager+*/}
-        {userLevel >= 2 && (
+        {!hideAddButton && userLevel >= 2 && (
           <Button onClick={() => { setSelectedItem(null); setIsModalOpen(true); }}>
             <Plus className="mr-2 h-4 w-4" /> Add New
           </Button>
