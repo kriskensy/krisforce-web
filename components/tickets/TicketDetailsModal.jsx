@@ -97,10 +97,12 @@ export default function TicketDetailsModal({ ticketId, isOpen, onClose }) {
       isLoading={loading}
     >
     
-    <TicketThread
-      comments={ticketData?.ticket_comments} 
-      authorId={ticketData?.user_id}
-    />
+    <div className="relative max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+      <TicketThread
+        comments={ticketData?.ticket_comments} 
+        authorId={ticketData?.user_id}
+      />
+    </div>
     </GenericDetailsModal>
   )
 }
