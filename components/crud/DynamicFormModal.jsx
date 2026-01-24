@@ -56,8 +56,20 @@ export default function DynamicFormModal({
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    
+    let dynamicEndpoint = endpoint;
+    if (endpoint.includes('[id]')) {
+      const contextId = formData.client_id || formData.user_id || formData.parent_id; 
+      if (!contextId) {
+        toast.error("Configuration error", { description: "Unable to determine parent ID" });
+        setLoading(false);
+        return;
+      }
+      dynamicEndpoint = endpoint.replace('[id]', contextId);
+    }
+
     const method = initialData ? "PUT" : "POST";
-    const url = initialData ? `${endpoint}/${initialData.id}` : endpoint;
+    const url = initialData ? `${dynamicEndpoint}/${initialData.id}` : dynamicEndpoint;
 
     try {
       const res = await fetch(url, {
@@ -65,11 +77,13 @@ export default function DynamicFormModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      if (!res.ok)
-        throw new Error("Failed to save");
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to save");
+      }
 
       toast.success(`${resourceName} saved successfully`);
-      
       onSuccess();
       onOpenChange(false);
     } catch (error) {
@@ -77,7 +91,7 @@ export default function DynamicFormModal({
     } finally {
       setLoading(false);
     }
-  };
+};
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
