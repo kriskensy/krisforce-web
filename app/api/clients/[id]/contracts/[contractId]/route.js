@@ -2,8 +2,8 @@ import { getClientContractById, updateClientContract, deactivateClientContract, 
 
 export async function GET(request, { params }) {
   try {
-    const { id, contractId } = await params
-    const contract = await getClientContractById(contractId, id)
+    const { contractId } = await params
+    const contract = await getClientContractById(contractId)
 
     return Response.json(contract, { status: 200 })
   } catch (error) {
@@ -17,7 +17,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const { id, contractId } = await params
+    const { contractId } = await params
     const data = await request.json()
     
     if (!data || typeof data !== 'object') {
@@ -27,7 +27,7 @@ export async function PUT(request, { params }) {
       )
     }
 
-    const contract = await updateClientContract(contractId, id, data)
+    const contract = await updateClientContract(contractId, data)
     return Response.json(contract, { status: 200 })
   } catch (error) {
     console.error('PUT /api/clients/[id]/contracts/[contractId] error:', error)
@@ -40,8 +40,8 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id, contractId } = await params
-    const contract = await deactivateClientContract(contractId, id)
+    const { contractId } = await params
+    const contract = await deactivateClientContract(contractId)
 
     return Response.json(contract, { status: 200 })
   } catch (error) {
@@ -55,8 +55,8 @@ export async function DELETE(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
-    const { id, contractId } = await params
-    const contract = await reactivateClientContract(contractId, id)
+    const { contractId } = await params
+    const contract = await reactivateClientContract(contractId)
 
     return Response.json(contract, { status: 200 })
   } catch (error) {

@@ -44,19 +44,13 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id, addressId } = await params;
+    const { addressId } = await params; 
+    const result = await deleteClientAddress(addressId); 
 
-    await deleteClientAddress(id, addressId);
-
-    return Response.json(
-      { success: true} , 
-      { status: 200 }
-    );
+    return Response.json(result, { status: 200 });
   } catch (error) {
-    console.error('DELETE /api/clients/[id]/addresses/[addressId] error', error);
-
     return Response.json(
-      { error: 'Failed to delete address', message: error.message },
+      { error: 'Failed to delete', message: error.message },
       { status: 500 }
     );
   }

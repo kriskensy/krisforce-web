@@ -11,6 +11,9 @@ import { DisplayActiveOnlyRecordsCheckbox }from "@/components/crud/DisplayActive
 import { GenericDetailsModal } from "./GenericDetailsModal";
 import { toast } from "sonner";
 import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
+import { OrderDetailsModal } from "../sales/OrderDetailsModal";
+import { InvoiceDetailsModal } from "../sales/InvoiceDetailsModal";
+import { DetailsModalRegistry } from "./DetailsModalRegistry";
 
 export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra, hideAddButton = false }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,8 +86,6 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
   }
 
   const columns = getColumnsFunc(userLevel, handleView, handleEdit, handleDeleteRequest, handleReactivate);
-  
-  const isTicketsTable = tableKey === 'tickets'; //flag for tickets modal
 
   return (
     <div className="space-y-4">
@@ -114,24 +115,15 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
         activeOnly={showActiveOnly}
       />
 
-      {isTicketsTable ? (
-        <TicketDetailsModal
-          ticketId={viewItem?.id}
-          isOpen={!!viewItem}
-          onClose={() => setViewItem(null)}
-          userLevel={userLevel}
-        />
-      ) : (
-        <GenericDetailsModal
-          isOpen={!!viewItem}
-          onClose={() => setViewItem(null)}
-          item={viewItem}
-          fields={fields}
-          title={title}
-        >
-          {viewItem && renderExtra && renderExtra(viewItem)}
-        </GenericDetailsModal>
-      )}
+      <DetailsModalRegistry
+        tableKey={tableKey}
+        viewItem={viewItem}
+        onClose={() => setViewItem(null)}
+        userLevel={userLevel}
+        fields={fields}
+        title={title}
+        renderExtra={renderExtra}
+      />
 
       <DynamicFormModal 
         open={isModalOpen}
