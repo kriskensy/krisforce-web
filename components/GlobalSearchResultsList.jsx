@@ -3,18 +3,47 @@
 import { useState } from "react";
 import { ChevronRight, Search } from "lucide-react";
 import { GenericDetailsModal } from "@/components/crud/GenericDetailsModal";
+import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
 import { GLOBAL_FEATURES_MAP } from "@/lib/configs/features/features-registry";
+import { toast } from "sonner";
 
-export default function GlobalSearchResultsList({ results }) {
+export default function GlobalSearchResultsList({ results, userLevel }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const [activeConfig, setactiveConfig] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
 
-  const openModal = (item, sectionKey) => {
+    const openModal = async (searchResult, sectionKey) => {
     const featureConfig = GLOBAL_FEATURES_MAP[sectionKey];
+    if(!featureConfig) return;
     
-    setSelectedItem(item);
     setactiveConfig(featureConfig);
+    setIsFetching(true);
+    setSelectedItem(searchResult);
+
+    try{
+      //change apiEdnpoint to real ID
+      let endpoint = featureConfig.apiEndpoint;
+      if(endpoint.includes('[id]')) {
+        endpoint = endpoint.replace('[id]', searchResult.id);
+      } else {
+        endpoint = `${endpoint}/${searchResult.id}`;
+      }
+
+      const response = await fetch(endpoint);
+      if(!response.ok) throw new Error('Failed to fetch full record');
+
+      const fullData = await response.json()
+
+      setSelectedItem(fullData.data || fullData);
+    } catch(error){
+      console.error("Search detail fetch error: ", error);
+      toast.error("Could not load full details");
+    } finally {
+      setIsFetching(false);
+    }
   };
+
+  const isTicketsOpen = activeConfig?.tableKey === 'tickets' && !!selectedItem; //flag for tickets modal
 
   return (
     <>
@@ -57,13 +86,29 @@ export default function GlobalSearchResultsList({ results }) {
         })}
       </div>
 
-      <GenericDetailsModal
-        isOpen={!!selectedItem}
-        onClose={() => setSelectedItem(null)}
-        item={selectedItem}
-        fields={activeConfig?.fields || []}
-        title={activeConfig?.title || "Details"}
-      />
+      {isTicketsOpen ? (
+        <TicketDetailsModal
+          ticketId={selectedItem?.id}
+          isOpen={true}
+          onClose={() => {
+            setSelectedItem(null);
+            setactiveConfig(null);
+          }}
+          userLevel={userLevel}
+        />
+      ) : (
+        <GenericDetailsModal
+          isOpen={!!selectedItem && !!activeConfig}
+          onClose={() => {
+            setSelectedItem(null);
+            setIsFetching(false);
+          }}
+          item={selectedItem}
+          fields={activeConfig?.fields || []}
+          title={activeConfig?.title || "Details"}
+          isLoading={isFetching}
+        />
+      )}
     </>
   );
 }
