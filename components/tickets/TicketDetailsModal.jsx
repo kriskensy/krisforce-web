@@ -55,6 +55,8 @@ export default function TicketDetailsModal({ ticketId, isOpen, onClose }) {
           {item.ticket_statuses?.name || 'New'}
         </Badge>
       )},
+    { name: 'created_by_name', label: 'Created by' },
+    { name: 'assigned_to_name', label: 'Assigned to' },
     { name: 'subject', label: 'Subject', fullWidth: true },
     { name: 'description', label: 'Detailed Description', fullWidth: true },
     {

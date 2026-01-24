@@ -9,7 +9,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return <span>{ticketNumber || "No ticket"}</span>;
     }
   },
-  { accessorKey: "user_id", header: "User",
+  { accessorKey: "user_id", header: "Created by",
     cell: ({ row }) => {
       const profile = row.original.user_profiles;
       const fullName = profile?.first_name && profile?.last_name

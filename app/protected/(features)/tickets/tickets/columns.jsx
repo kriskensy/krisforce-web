@@ -23,14 +23,6 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       return <span>{priorityName || "No priority"}</span>;
     }
   },
-  { accessorKey: "assigned_to_user_id", header: "Assigned To",
-    cell: ({ row }) => {
-      const userName = row.original.users?.user_profiles?.first_name && row.original.users?.user_profiles?.last_name
-        ? `${row.original.users.user_profiles.first_name} ${row.original.users.user_profiles.last_name}`
-        : row.original.users?.email || "Unassigned";
-      return <span>{userName}</span>;
-    }
-  },
   { accessorKey: "created_at", header: "Created",
     cell: ({ row }) => {
       const createdAt = row.getValue("created_at");
