@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal, Eye, Pencil, Trash2, ShoppingCart, RotateCcw, EditIcon } from "lucide-react";
+import { MessageSquare, MoreHorizontal, Eye, Pencil, Trash2, ShoppingCart, RotateCcw, EditIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
@@ -9,6 +9,7 @@ export function DataTableRowActions({
   userLevel,
   onView,
   onEdit, 
+  onAddComment,
   onDelete,
   onReactivate,
   entityName = "record",
@@ -26,7 +27,6 @@ export function DataTableRowActions({
     (hasDeletedAtField && item.deleted_at) || 
     (hasActiveField && item.active === false);
 
-  // const EditIcon = editIcon || Pencil;
   const label = editLabel || `Edit ${entityName}`;
 
   return (
@@ -57,6 +57,12 @@ export function DataTableRowActions({
         {onEdit && (
           <DropdownMenuItem onClick={() => onEdit(item)}>
             <EditIcon className="mr-2 h-4 w-4" /> {label}
+          </DropdownMenuItem>
+        )}
+
+        {onAddComment && (
+          <DropdownMenuItem onClick={() => onAddComment(item)}>
+            <MessageSquare className="mr-2 h-4 w-4" /> Add Comment
           </DropdownMenuItem>
         )}
 

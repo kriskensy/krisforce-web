@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator"
 
 export function TicketThread({ comments = [], authorId }) {
   const sortedComments = [...comments].sort(
-    (commentA, commentB) => new Date(commentA.created_at) - new Date(commentB.created_at)
+    (commentA, commentB) => new Date(commentB.created_at) - new Date(commentA.created_at)
   )
 
   return (

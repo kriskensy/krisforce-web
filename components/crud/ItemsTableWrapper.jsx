@@ -14,6 +14,7 @@ import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
 import { OrderDetailsModal } from "../sales/OrderDetailsModal";
 import { InvoiceDetailsModal } from "../sales/InvoiceDetailsModal";
 import { DetailsModalRegistry } from "./DetailsModalRegistry";
+import AddCommentModal from "../tickets/AddCommentModal";
 
 export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra, hideAddButton = false }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +24,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
   const [itemToDelete, setItemToDelete] = useState(null);
   const [showActiveOnly, setShowActiveOnly] = useState(true);
   const [viewItem, setViewItem]= useState(null);
+  const [replyTicketId, setReplyTicketId] = useState(null)
 
   const handleEdit = (item) => {
     setSelectedItem(item);
@@ -74,6 +76,10 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     }
   };
 
+  const handleAddComment = (item) => {
+    setReplyTicketId(item.id);
+  };
+
   const getColumnsFunc = GLOBAL_COLUMNS_REGISTRY[tableKey];
 
   if (!getColumnsFunc) {
@@ -85,7 +91,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleView, handleEdit, handleDeleteRequest, handleReactivate);
+  const columns = getColumnsFunc(userLevel, handleView, handleEdit, handleDeleteRequest, handleReactivate, handleAddComment);
 
   return (
     <div className="space-y-4">
@@ -137,11 +143,18 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
         endpoint={apiEndpoint}
         resourceName={title}
       />
+
       <DeleteConfirmModal 
         open={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
         onConfirm={confirmDelete}
         resourceName={title}
+      />
+
+      <AddCommentModal 
+        ticketId={replyTicketId} 
+        isOpen={!!replyTicketId} 
+        onClose={() => setReplyTicketId(null)} 
       />
     </div>
   );
