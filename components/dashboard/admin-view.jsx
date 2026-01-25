@@ -6,7 +6,7 @@ import { DashboardBarChart } from "@/components/dashboard/dashboard-barchart";
 export default async function AdminDashboardView() {
     const supabase = await getServerClient();
 
-  const { userStats, permissionStats, totalProducts, totalClients, totalTickets } = await getAdminDashboardData();
+  const { userStats, totalUsers, permissionStats, totalProducts, totalClients, totalTickets } = await getAdminDashboardData();
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -30,14 +30,14 @@ export default async function AdminDashboardView() {
 
       <StatCard 
         title="User Base" 
-        value={userStats?.reduce((acc, curr) => acc + parseInt(curr.value), 0) || 0}
+        value={totalUsers}
         subtitle="Across all roles"
       />
 
       <div className="lg:col-span-2">
         <DashboardBarChart 
           title="Users per Role"
-          data={userStats?.map(s => ({ name: s.label, count: parseInt(s.value) })) || []}
+          data={userStats}
           labelKey="name"
           dataKey="count"
           barColor="#6366F1"
