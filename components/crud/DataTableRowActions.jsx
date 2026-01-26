@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageSquare, MoreHorizontal, Eye, Pencil, Trash2, ShoppingCart, RotateCcw, EditIcon } from "lucide-react";
+import { MessageSquare, MoreHorizontal, Eye, Pencil, Trash2, RotateCcw, EditIcon, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
@@ -12,10 +12,10 @@ export function DataTableRowActions({
   onAddComment,
   onDelete,
   onReactivate,
+  onCreateInvoice,
   entityName = "record",
   editIcon: EditIcon = Pencil, //default = Pencil
-  editLabel,
-  showCart = false
+  editLabel
 }) {
   const item = row.original;
   
@@ -39,17 +39,16 @@ export function DataTableRowActions({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         
-        {/* user/client ShopCart action */}
-        {userLevel === 1 && showCart && (
-          <DropdownMenuItem onClick={() => console.log("Added to cart", item.id)}>
-            <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
-          </DropdownMenuItem>
-        )}
-        
         {/* all users */}
         {onView && (
           <DropdownMenuItem onClick={() => onView(item)}>
             <Eye className="mr-2 h-4 w-4" /> Details
+          </DropdownMenuItem>
+        )}
+
+        {entityName === "Order" && userLevel >= 2 && onCreateInvoice && !isDeactivated && (
+          <DropdownMenuItem onClick={() => onCreateInvoice(item)}>
+            <FileText className="mr-2 h-4 w-4"/> Create Invoice
           </DropdownMenuItem>
         )}
 

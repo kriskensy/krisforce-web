@@ -15,6 +15,7 @@ import { OrderDetailsModal } from "../sales/OrderDetailsModal";
 import { InvoiceDetailsModal } from "../sales/InvoiceDetailsModal";
 import { DetailsModalRegistry } from "./DetailsModalRegistry";
 import AddCommentModal from "../tickets/AddCommentModal";
+import { createInvoiceFromOrderAction } from "@/lib/actions/invoices";
 
 export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra, hideAddButton = false }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,6 +81,28 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     setReplyTicketId(item.id);
   };
 
+  const handleCreateInvoice = async (order) => {
+    try{
+      const result = await createInvoiceFromOrderAction(order.id);
+
+      if(result.success) {
+        toast.success(`Invoice created for ${order.order_number}`);
+        setRefreshKey(prev => prev + 1 );
+        return;
+      }
+
+      if(result.code === 'ALREADY_EXISTS') {
+        toast.info(`Order ${order.order_number} already has an invoice: ${result.invoiceNumber}`)
+        return;
+      }
+
+      toast.error(result.error || "Failed to create invoice");
+
+    } catch (error) {
+      toast.error("Handle creation invoice from order Error", { description: error.message });
+    }
+  }
+
   const getColumnsFunc = GLOBAL_COLUMNS_REGISTRY[tableKey];
 
   if (!getColumnsFunc) {
@@ -91,7 +114,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleView, handleEdit, handleDeleteRequest, handleReactivate, handleAddComment);
+  const columns = getColumnsFunc(userLevel, handleView, handleCreateInvoice, handleEdit, handleDeleteRequest, handleReactivate, handleAddComment);
 
   return (
     <div className="space-y-4">
