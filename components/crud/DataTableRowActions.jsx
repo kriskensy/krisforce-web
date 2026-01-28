@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageSquare, MoreHorizontal, Eye, Pencil, Trash2, RotateCcw, EditIcon, FileText } from "lucide-react";
+import { MessageSquare, MoreHorizontal, Eye, Pencil, Trash2, RotateCcw, EditIcon, FileText, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
@@ -13,6 +13,7 @@ export function DataTableRowActions({
   onDelete,
   onReactivate,
   onCreateInvoice,
+  onRecordPayment,
   entityName = "record",
   editIcon: EditIcon = Pencil, //default = Pencil
   editLabel
@@ -26,6 +27,9 @@ export function DataTableRowActions({
   const isDeactivated = 
     (hasDeletedAtField && item.deleted_at) || 
     (hasActiveField && item.active === false);
+
+  //check is invoice paid?
+  const isPaid = item.invoice_statuses?.code === 'paid';
 
   const label = editLabel || `Edit ${entityName}`;
 
@@ -49,6 +53,13 @@ export function DataTableRowActions({
         {entityName === "Order" && userLevel >= 2 && onCreateInvoice && !isDeactivated && (
           <DropdownMenuItem onClick={() => onCreateInvoice(item)}>
             <FileText className="mr-2 h-4 w-4"/> Create Invoice
+          </DropdownMenuItem>
+        )}
+
+        {/* record payment */}
+        {entityName === "Invoice" && userLevel >= 2 && onRecordPayment && !isDeactivated && !isPaid && (
+          <DropdownMenuItem onClick={() => onRecordPayment(item)}>
+            <CreditCard className="mr-2 h-4 w-4" /> Record Payment
           </DropdownMenuItem>
         )}
 

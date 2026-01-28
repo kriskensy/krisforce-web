@@ -16,6 +16,8 @@ import { InvoiceDetailsModal } from "../sales/InvoiceDetailsModal";
 import { DetailsModalRegistry } from "./DetailsModalRegistry";
 import AddCommentModal from "../tickets/AddCommentModal";
 import { createInvoiceFromOrderAction } from "@/lib/actions/invoices";
+import { recordPaymentAction } from "@/lib/actions/invoices";
+import { RecordPaymentModal } from "@/components/sales/RecordPaymentModal";
 
 export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra, hideAddButton = false }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +27,9 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
   const [itemToDelete, setItemToDelete] = useState(null);
   const [showActiveOnly, setShowActiveOnly] = useState(true);
   const [viewItem, setViewItem]= useState(null);
-  const [replyTicketId, setReplyTicketId] = useState(null)
+  const [replyTicketId, setReplyTicketId] = useState(null);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [invoiceToPay, setInvoiceToPay] = useState(null);
 
   const handleEdit = (item) => {
     setSelectedItem(item);
@@ -103,6 +107,11 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     }
   }
 
+  const handleRecordPayment = (invoice) => {
+    setInvoiceToPay(invoice);
+    setPaymentModalOpen(true);
+  };
+
   const getColumnsFunc = GLOBAL_COLUMNS_REGISTRY[tableKey];
 
   if (!getColumnsFunc) {
@@ -114,7 +123,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleView, handleCreateInvoice, handleEdit, handleDeleteRequest, handleReactivate, handleAddComment);
+  const columns = getColumnsFunc(userLevel, handleView, handleCreateInvoice, handleEdit, handleDeleteRequest, handleReactivate, handleAddComment, handleRecordPayment);
 
   return (
     <div className="space-y-4">
@@ -178,6 +187,16 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
         ticketId={replyTicketId} 
         isOpen={!!replyTicketId} 
         onClose={() => setReplyTicketId(null)} 
+      />
+
+      <RecordPaymentModal 
+        isOpen={paymentModalOpen}
+        onClose={() => {
+          setPaymentModalOpen(false);
+          setInvoiceToPay(null);
+        }}
+        invoice={invoiceToPay}
+        onSuccess={() => setRefreshKey(prev => prev + 1)}
       />
     </div>
   );
