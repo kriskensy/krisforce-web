@@ -6,12 +6,32 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { recordPaymentAction } from "@/lib/actions/invoices";
+import { getPaymentMethodsAction, recordPaymentAction } from "@/lib/actions/invoices";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function RecordPaymentModal({ isOpen, onClose, invoice, onSuccess }) {
   const [amount, setAmount] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const [paymentMethodId, setPaymentMethodId] = useState("");
+  const [paymentMethods, setPaymentMethods] = useState([]);
 
+  //get payment methods on modal open
+  useEffect(() => {
+    async function loadMethods() {
+      const result = await getPaymentMethodsAction();
+
+      if(result.success) {
+        setPaymentMethods(result.data);
+
+        //set default method: first in array
+        if(result.data.length > 0)
+          setPaymentMethodId(result.data[0].id);
+      }
+    }
+    if (isOpen) loadMethods();
+  }), [isOpen];
+
+  //set amount to pay
   useEffect(() => {
     if (invoice) {
       const remaining = invoice.total_amount - (invoice.paid_amount || 0);
@@ -19,8 +39,8 @@ export function RecordPaymentModal({ isOpen, onClose, invoice, onSuccess }) {
     }
   }, [invoice]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const val = parseFloat(amount);
 
     if (isNaN(val) || val <= 0) {
@@ -60,12 +80,25 @@ export function RecordPaymentModal({ isOpen, onClose, invoice, onSuccess }) {
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
               placeholder="0.00"
-              autoFocus
             />
-            <p className="text-sm text-muted-foreground">
-              Total: {invoice?.total_amount} | Paid: {invoice?.paid_amount || 0}
-            </p>
           </div>
+
+          <div className="grid gap-2">
+            <Label>Payment Method</Label>
+            <Select value={paymentMethodId} onValueChange={setPaymentMethodId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select method..." />
+              </SelectTrigger>
+              <SelectContent>
+                {paymentMethods.map((paymentMethod) => (
+                  <SelectItem key={paymentMethod.id} value={paymentMethod.id}>
+                    {paymentMethod.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
             <Button type="submit" disabled={isPending}>
