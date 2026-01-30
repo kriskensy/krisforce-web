@@ -123,7 +123,16 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
     );
   }
 
-  const columns = getColumnsFunc(userLevel, handleView, handleCreateInvoice, handleEdit, handleDeleteRequest, handleReactivate, handleAddComment, handleRecordPayment);
+  const columns = getColumnsFunc(
+    userLevel,
+    handleView,
+    handleEdit,
+    handleDeleteRequest,
+    handleReactivate,
+    handleAddComment,
+    handleCreateInvoice,
+    handleRecordPayment
+  );
 
   return (
     <div className="space-y-4">
