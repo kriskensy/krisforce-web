@@ -8,16 +8,7 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
       const clientName = row.original.clients?.name;
       return <span>{clientName || "No client"}</span>;
     }
-  },
-  { accessorKey: "user_id", header: "Created By",
-    cell: ({ row }) => {
-      const userName = row.original.user_profiles?.first_name && row.original.user_profiles?.last_name
-        ? `${row.original.user_profiles.first_name} ${row.original.user_profiles.last_name}`
-        : row.original.user_profiles?.first_name || "Unknown";
-      return <span>{userName}</span>;
-    }
-  },
-  
+  },  
   { accessorKey: "created_at", header: "Created at",
     cell: ({ row }) => {
       const createdAt = row.getValue("created_at");

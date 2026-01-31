@@ -29,7 +29,7 @@ export function RecordPaymentModal({ isOpen, onClose, invoice, onSuccess }) {
       }
     }
     if (isOpen) loadMethods();
-  }), [isOpen];
+  }, [isOpen]);
 
   //set amount to pay
   useEffect(() => {
@@ -49,7 +49,7 @@ export function RecordPaymentModal({ isOpen, onClose, invoice, onSuccess }) {
 
     setIsPending(true);
     try {
-      const result = await recordPaymentAction(invoice.id, val);
+      const result = await recordPaymentAction(invoice.id, val, paymentMethodId);
       if (result.success) {
         toast.success(`Payment of ${val} recorded`);
         onSuccess();

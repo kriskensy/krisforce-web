@@ -32,6 +32,7 @@ export function DataTableRowActions({
   const isPaid = item.invoice_statuses?.code === 'paid';
 
   const label = editLabel || `Edit ${entityName}`;
+  const supportCanEditTicketsOnly = userLevel >= 2 || ( entityName === "Ticket" || entityName === "Ticket Comment");
 
   return (
     <DropdownMenu>
@@ -64,7 +65,7 @@ export function DataTableRowActions({
         )}
 
         {/* all users */}
-        {onEdit && (
+        {onEdit && supportCanEditTicketsOnly && (
           <DropdownMenuItem onClick={() => onEdit(item)}>
             <EditIcon className="mr-2 h-4 w-4" /> {label}
           </DropdownMenuItem>
