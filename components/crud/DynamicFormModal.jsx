@@ -125,10 +125,14 @@ export default function DynamicFormModal({
                   value={formData[field.name]?.toString()} 
                   onValueChange={(val) => setFormData({...formData, [field.name]: val})}
                 >
-                  <SelectTrigger><SelectValue placeholder={`Select ${field.label.toLowerCase()}`} /></SelectTrigger>
+                  <SelectTrigger>
+                    <SelectValue placeholder={`Select ${field.label.toLowerCase()}`} />
+                  </SelectTrigger>
                   <SelectContent className="z-[100]">
-                    {selectData[field.name]?.map((opt) => (
-                      <SelectItem key={opt.id} value={opt.id.toString()}>{opt.name}</SelectItem>
+                    {selectData[field.name]?.map((option) => (
+                      <SelectItem key={option.id} value={option.id.toString()}>
+                        {option[field.displayKey || 'name']}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>

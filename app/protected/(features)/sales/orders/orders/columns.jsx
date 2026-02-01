@@ -24,7 +24,13 @@ export const getColumns = (userLevel, onView, onEdit, onDeactivate, onReactivate
   },
   { accessorKey: "total_amount", header: "Total Amount",
     cell: ({ row }) => {
+      const rawValue = row.getValue("total_amount");
       const amount = parseFloat(row.getValue("total_amount"));
+
+      if(rawValue === null || isNaN(amount))
+        return (
+          <span className="text-amber-600 font-medium italic text-xs">No order positions</span>
+        )
       return new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(amount);
     }
   },
