@@ -17,7 +17,8 @@ export default function DynamicFormModal({
   endpoint, 
   onSuccess, 
   fields,
-  resourceName //"Product", "Category", "Price List"...
+  resourceName, //"Product", "Category", "Price List"...
+  parentId
 }) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
@@ -59,7 +60,8 @@ export default function DynamicFormModal({
     
     let dynamicEndpoint = endpoint;
     if (endpoint.includes('[id]')) {
-      const contextId = formData.client_id || formData.user_id || formData.parent_id; 
+      const contextId = parentId || formData.order_id || formData.client_id || formData.user_id || formData.invoice_id;
+
       if (!contextId) {
         toast.error("Configuration error", { description: "Unable to determine parent ID" });
         setLoading(false);
@@ -141,13 +143,16 @@ export default function DynamicFormModal({
                 <Input 
                   id={field.name}
                   type={field.type === 'number' ? 'number' : 'text'}
-                  step={field.type === 'number' ? '0.01' : undefined}
+                  step={field.type === 'number' ? '1' : undefined}
                   value={formData[field.name] || ""}
                   onChange={(e) => {
                     const val = field.type === 'number' ? parseFloat(e.target.value) : e.target.value;
                     setFormData({...formData, [field.name]: val});
                   }}
                   required={field.required}
+                  disabled={field.readOnly || loading} //block for read only field
+                  className={field.readOnly ? "bg-muted cursor-not-allowed" : ""}
+                  placeholder={field.readOnly ? "Calculated automatically" : ""}
                 />
               )}
             </div>

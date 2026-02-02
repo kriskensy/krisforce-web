@@ -1,5 +1,6 @@
 'use client';
 
+import { useParams } from "next/navigation";
 import { GLOBAL_COLUMNS_REGISTRY } from "@/lib/configs/columns-registry";
 import { useState } from 'react';
 import { DataTableServer } from '@/components/ui/data-table-server';
@@ -20,6 +21,10 @@ import { recordPaymentAction } from "@/lib/actions/invoices";
 import { RecordPaymentModal } from "@/components/sales/RecordPaymentModal";
 
 export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint, fields, title, description, tableKey, renderExtra, hideAddButton = false }) {
+
+  const params = useParams();
+  const parentIdFromUrl = params.id;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -180,6 +185,7 @@ export default function ItemsTableWrapper({ subcategory, userLevel, apiEndpoint,
           setRefreshKey(prev => prev + 1);
         }}
         initialData={selectedItem}
+        parentId={parentIdFromUrl}
         fields={fields} 
         endpoint={apiEndpoint}
         resourceName={title}
