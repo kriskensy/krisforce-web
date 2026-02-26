@@ -25,7 +25,8 @@ export function LoginForm({ className, ...props }) {
 
     try {
         await loginUser(email, password)
-        router.push("/protected");
+        router.push("/");
+        // router.push("/protected");
       } catch (error) {
         setError(error instanceof Error ? error.message : "An error occurred");
       } finally {

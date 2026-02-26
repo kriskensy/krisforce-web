@@ -45,7 +45,6 @@ export async function PUT(request, { params }) {
 export async function DELETE(request, { params }) {
   try {
     const { id } = await params;
-    // const id = (await params).id;//TODO remove after test
     const user = await deactivateUser(id);
 
     return Response.json(user, { status: 200 });
